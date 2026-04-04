@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:feeds.arstechnica.com)",
+      "WebFetch(domain:techcrunch.com)",
+      "WebFetch(domain:www.theverge.com)",
+      "WebFetch(domain:www.wired.com)",
+      "WebFetch(domain:www.zdnet.com)",
+      "WebFetch(domain:venturebeat.com)",
+      "WebFetch(domain:www.bleepingcomputer.com)",
+      "WebFetch(domain:krebsonsecurity.com)",
+      "WebFetch(domain:www.darkreading.com)",
+      "WebFetch(domain:nsm.no)",
+      "WebSearch",
+      "Bash(npm install:*)",
+      "Bash(npm audit:*)",
+      "Bash(/c/Repos/it-news-infoscreen/.gitignore:*)",
+      "Bash(node:*)",
+      "Bash(cp:*)",
+      "Bash(npm ls:*)",
+      "Bash(timeout 8 ./infoscreen.exe:*)",
+      "Bash(taskkill:*)",
+      "Bash(cmd:*)"
+    ]
+  }
+}

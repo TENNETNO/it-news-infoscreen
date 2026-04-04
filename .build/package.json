@@ -1,0 +1,14 @@
+{
+  "name": "infoscreen",
+  "version": "1.0.0",
+  "bin": "server.cjs",
+  "pkg": {
+    "targets": [
+      "node20-win-x64"
+    ],
+    "outputPath": "C:\\Repos\\it-news-infoscreen\\release",
+    "assets": [
+      "sources.json"
+    ]
+  }
+}

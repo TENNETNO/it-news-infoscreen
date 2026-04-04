@@ -1,0 +1,632 @@
+/* ============================================================
+   MOWI IT INFOSCREEN
+   Palette: #2C2A29 · #FF6F4A · #BBBBBB · #FFFFFF
+   Font: Futura Std › Century Gothic › Trebuchet MS
+============================================================ */
+
+:root {
+  --black:       #2C2A29;
+  --salmon:      #FF6F4A;
+  --grey:        #BBBBBB;
+  --white:       #FFFFFF;
+
+  --bg:          #161514;
+  --panel:       #2C2A29;
+  --panel-lift:  #363230;
+  --text:        #FFFFFF;
+  --muted:       #BBBBBB;
+  --outline:     rgba(187, 187, 187, 0.13);
+  --salmon-glow: rgba(255, 111, 74, 0.22);
+
+  font-family: "Futura Std", "Futura", "Century Gothic", "Trebuchet MS", sans-serif;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body,
+html,
+#root {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  color: var(--text);
+  background: var(--bg);
+}
+
+/* ── App shell ──────────────────────────────────────────── */
+.app-shell {
+  height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 0.65rem;
+  padding: 0.72rem 0.85rem 0.6rem;
+  overflow: hidden;
+}
+
+/* ── Header ─────────────────────────────────────────────── */
+.header-bar {
+  background: var(--panel);
+  border: 1px solid var(--outline);
+  border-radius: 10px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.52rem 1.1rem;
+}
+
+.brand-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.brand-logo {
+  height: 52px;
+  width: auto;
+  max-width: 240px;
+  display: block;
+  object-fit: contain;
+}
+
+.brand-text {
+  display: grid;
+  line-height: 1.1;
+  gap: 0.1rem;
+}
+
+.brand-title {
+  font-size: clamp(0.82rem, 1.05vw, 0.98rem);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--white);
+}
+
+.brand-subtitle {
+  font-size: clamp(0.6rem, 0.78vw, 0.72rem);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--salmon);
+}
+
+/* clock — the centrepiece of any infoscreen */
+.clock-wrap {
+  justify-self: end;
+  text-align: right;
+  line-height: 1;
+}
+
+.time {
+  font-size: clamp(2rem, 3.4vw, 3.1rem);
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: var(--white);
+  line-height: 1;
+}
+
+.date {
+  margin-top: 0.18rem;
+  font-size: clamp(0.68rem, 0.9vw, 0.86rem);
+  font-weight: 600;
+  color: var(--salmon);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* ── Main grid ───────────────────────────────────────────── */
+.main-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.65rem;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.top-stories {
+  border: 1px solid var(--outline);
+  border-radius: 10px;
+  padding: 0.65rem;
+  min-height: 0;
+  overflow: hidden;
+}
+
+h2 {
+  margin: 0 0 0.5rem;
+  font-size: clamp(0.62rem, 0.8vw, 0.76rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--salmon);
+}
+
+/* 2×2 grid — 4 cards fill the screen evenly */
+.top-story-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 0.6rem;
+  height: calc(100% - 1.5rem);
+  min-height: 0;
+}
+
+/* ── News cards ──────────────────────────────────────────── */
+.news-card {
+  background: var(--panel);
+  border: 1px solid var(--outline);
+  border-left: 3px solid transparent;
+  border-radius: 9px;
+  padding: 0.75rem 0.82rem 0.7rem;
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  gap: 0.38rem;
+  min-height: 0;
+  overflow: hidden;
+  transition: border-left-color 300ms ease, background 300ms ease;
+}
+
+.news-card.highlighted {
+  background: var(--panel-lift);
+  border-left-color: var(--salmon);
+}
+
+/* ── Card rows ───────────────────────────────────────────── */
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.category {
+  background: var(--salmon);
+  color: var(--white);
+  font-size: clamp(0.52rem, 0.65vw, 0.68rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  padding: 0.18rem 0.5rem;
+  border-radius: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.badge {
+  font-size: clamp(0.5rem, 0.6vw, 0.64rem);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  border: 1px solid var(--outline);
+  border-radius: 999px;
+  padding: 0.1rem 0.38rem;
+  white-space: nowrap;
+}
+
+h3 {
+  margin: 0;
+  line-height: 1.22;
+  /* fluid: scales from ~14px on small screens to ~22px on wide TV */
+  font-size: clamp(0.88rem, 1.6vw, 1.35rem);
+  font-weight: 700;
+  color: var(--white);
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.news-card p {
+  margin: 0;
+  color: var(--muted);
+  /* fluid: scales from ~12px to ~17px */
+  font-size: clamp(0.72rem, 1.1vw, 1rem);
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: auto;
+  padding-top: 0.38rem;
+  border-top: 1px solid var(--outline);
+}
+
+.source {
+  font-size: clamp(0.7rem, 0.85vw, 0.84rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--white);
+}
+
+.published {
+  margin-top: 0.12rem;
+  font-size: clamp(0.64rem, 0.78vw, 0.76rem);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+
+.qr {
+  width: 56px;
+  height: 56px;
+  border-radius: 6px;
+  border: 1px solid var(--outline);
+  opacity: 0.82;
+  flex-shrink: 0;
+}
+
+.qr.tiny {
+  width: 40px;
+  height: 40px;
+}
+
+/* ── Security list (sidebar / future use) ────────────────── */
+.security-column {
+  border: 1px solid var(--outline);
+  border-radius: 10px;
+  background: var(--panel);
+  padding: 0.65rem;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.security-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.42rem;
+}
+
+.security-row {
+  border: 1px solid var(--outline);
+  border-left: 3px solid var(--salmon);
+  border-radius: 8px;
+  padding: 0.44rem 0.55rem;
+  background: var(--panel-lift);
+  display: flex;
+  justify-content: space-between;
+  gap: 0.45rem;
+}
+
+.security-title {
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.18;
+  margin-bottom: 0.14rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.security-meta {
+  display: flex;
+  gap: 0.32rem;
+  align-items: center;
+  color: var(--muted);
+  font-size: 0.64rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  flex-wrap: wrap;
+}
+
+.security-empty {
+  color: var(--muted);
+  font-size: 0.76rem;
+}
+
+/* ── Ticker ──────────────────────────────────────────────── */
+.ticker {
+  background: var(--panel);
+  border: 1px solid var(--outline);
+  border-radius: 10px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.8rem;
+  align-items: center;
+  padding: 0.46rem 0.9rem;
+  overflow: hidden;
+}
+
+.ticker-label {
+  background: var(--salmon);
+  color: var(--white);
+  border-radius: 5px;
+  font-weight: 800;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  padding: 0.22rem 0.62rem;
+  white-space: nowrap;
+}
+
+.ticker-track-wrap {
+  overflow: hidden;
+  width: 100%;
+}
+
+.ticker-track {
+  display: inline-block;
+  white-space: nowrap;
+  font-size: clamp(0.74rem, 0.98vw, 0.88rem);
+  color: var(--grey);
+  letter-spacing: 0.03em;
+  animation: marquee 260s linear infinite;
+}
+
+@keyframes marquee {
+  0%   { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+
+/* 2×2 grid holds all the way down — header adjusts at 1100px */
+@media (max-width: 1100px) {
+  .header-bar {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    justify-items: start;
+    padding: 0.6rem 0.9rem;
+    gap: 0.45rem 1rem;
+  }
+
+  .brand-wrap { grid-column: 1; grid-row: 1; }
+  .clock-wrap { grid-column: 2; grid-row: 1; justify-self: end; text-align: right; }
+
+  .brand-logo {
+    height: 44px;
+    max-width: 200px;
+  }
+}
+
+/* tablet — keep 2×2 grid but make it scrollable */
+@media (max-width: 768px) {
+  body,
+  html,
+  #root {
+    overflow: auto;
+  }
+
+  .app-shell {
+    height: auto;
+    min-height: 100vh;
+    padding: 0.5rem 0.55rem 0.45rem;
+    gap: 0.5rem;
+  }
+
+  .header-bar {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    justify-items: center;
+    text-align: center;
+    padding: 0.6rem 0.8rem;
+    gap: 0.4rem;
+  }
+
+  .brand-wrap { grid-column: 1; grid-row: 1; justify-content: center; width: 100%; }
+  .clock-wrap { grid-column: 1; grid-row: 2; justify-self: center; text-align: center; line-height: 1; }
+
+  .brand-logo {
+    height: 38px;
+    max-width: 175px;
+  }
+
+  .time {
+    font-size: clamp(1.5rem, 5vw, 2rem);
+  }
+
+  .date {
+    font-size: 0.72rem;
+  }
+
+  .top-story-grid {
+    /* stay 2×2 but let height be auto so cards scroll */
+    grid-template-rows: auto;
+    height: auto;
+    gap: 0.5rem;
+  }
+
+  h3 {
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+  }
+
+  .news-card p {
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+  }
+
+  .qr {
+    width: 44px;
+    height: 44px;
+  }
+
+  .ticker {
+    padding: 0.38rem 0.6rem;
+    gap: 0.5rem;
+  }
+
+  .ticker-label {
+    font-size: 0.64rem;
+    padding: 0.2rem 0.46rem;
+  }
+
+  .ticker-track {
+    font-size: 0.78rem;
+  }
+}
+
+/* ── Login screen ────────────────────────────────────────── */
+.login-screen {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  padding: 1rem;
+}
+
+.login-card {
+  background: var(--panel);
+  border: 1px solid var(--outline);
+  border-radius: 14px;
+  padding: 2.5rem 2.8rem;
+  width: 100%;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.6rem;
+}
+
+.login-logo {
+  height: 48px;
+  width: auto;
+  max-width: 220px;
+  object-fit: contain;
+}
+
+.login-heading {
+  text-align: center;
+  line-height: 1.2;
+}
+
+.login-title {
+  font-size: 1rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--white);
+}
+
+.login-sub {
+  margin-top: 0.2rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--salmon);
+}
+
+.login-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.login-input {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--outline);
+  border-radius: 7px;
+  color: var(--white);
+  font-family: inherit;
+  font-size: 0.92rem;
+  padding: 0.62rem 0.85rem;
+  outline: none;
+  transition: border-color 200ms ease;
+}
+
+.login-input:focus {
+  border-color: var(--salmon);
+}
+
+.login-input::placeholder {
+  color: var(--muted);
+}
+
+.login-error {
+  margin: 0;
+  font-size: 0.76rem;
+  color: var(--salmon);
+  text-align: center;
+}
+
+.login-btn {
+  width: 100%;
+  background: var(--salmon);
+  color: var(--white);
+  border: none;
+  border-radius: 7px;
+  font-family: inherit;
+  font-size: 0.84rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: 0.62rem;
+  cursor: pointer;
+  transition: opacity 200ms ease;
+}
+
+.login-btn:hover:not(:disabled) {
+  opacity: 0.88;
+}
+
+.login-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* mobile — single column */
+@media (max-width: 480px) {
+  .app-shell {
+    padding: 0.4rem;
+    gap: 0.4rem;
+  }
+
+  .brand-subtitle {
+    display: none;
+  }
+
+  .top-story-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+
+  h3 {
+    font-size: 1rem;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+  }
+
+  .news-card p {
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+  }
+
+  .card-bottom {
+    gap: 0.3rem;
+  }
+
+  .qr {
+    width: 36px;
+    height: 36px;
+  }
+
+  .badge {
+    font-size: 0.52rem;
+  }
+
+  .ticker-track {
+    font-size: 0.72rem;
+    animation-duration: 320s;
+  }
+}

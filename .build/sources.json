@@ -1,0 +1,158 @@
+{
+  "port": 8080,
+  "default_limit": 50,
+  "source_timeout_ms": 12000,
+  "refresh_window_ms": 120000,
+  "sources": [
+    {
+      "id": "digi-no",
+      "enabled": true,
+      "type": "rss",
+      "name": "Digi.no",
+      "url": "https://www.digi.no/rss",
+      "language": "no",
+      "country": "NO",
+      "cache_ttl_sec": 180
+    },
+    {
+      "id": "tek-no",
+      "enabled": true,
+      "type": "rss",
+      "name": "Tek.no",
+      "url": "https://www.tek.no/rss",
+      "language": "no",
+      "country": "NO",
+      "cache_ttl_sec": 180
+    },
+    {
+      "id": "computerworld-no",
+      "enabled": true,
+      "type": "rss",
+      "name": "Computerworld Norge",
+      "url": "https://www.cw.no/?service=rss",
+      "language": "no",
+      "country": "NO",
+      "cache_ttl_sec": 240
+    },
+    {
+      "id": "nsm-alerts",
+      "enabled": false,
+      "type": "scrape",
+      "name": "NSM Alerts",
+      "url": "https://nsm.no/",
+      "language": "no",
+      "country": "NO",
+      "cache_ttl_sec": 900
+    },
+    {
+      "id": "ars-technica",
+      "enabled": true,
+      "type": "rss",
+      "name": "Ars Technica",
+      "url": "https://feeds.arstechnica.com/arstechnica/index",
+      "language": "en",
+      "country": "US",
+      "cache_ttl_sec": 300
+    },
+    {
+      "id": "techcrunch",
+      "enabled": true,
+      "type": "rss",
+      "name": "TechCrunch",
+      "url": "https://techcrunch.com/feed/",
+      "language": "en",
+      "country": "US",
+      "cache_ttl_sec": 300
+    },
+    {
+      "id": "the-verge",
+      "enabled": true,
+      "type": "rss",
+      "name": "The Verge",
+      "url": "https://www.theverge.com/rss/index.xml",
+      "language": "en",
+      "country": "US",
+      "cache_ttl_sec": 300
+    },
+    {
+      "id": "wired",
+      "enabled": true,
+      "type": "rss",
+      "name": "Wired",
+      "url": "https://www.wired.com/feed/rss",
+      "language": "en",
+      "country": "US",
+      "cache_ttl_sec": 300
+    },
+    {
+      "id": "zdnet",
+      "enabled": true,
+      "type": "rss",
+      "name": "ZDNet",
+      "url": "https://www.zdnet.com/news/rss.xml",
+      "language": "en",
+      "country": "US",
+      "cache_ttl_sec": 300
+    },
+    {
+      "id": "venturebeat",
+      "enabled": true,
+      "type": "rss",
+      "name": "VentureBeat",
+      "url": "https://venturebeat.com/feed/",
+      "language": "en",
+      "country": "US",
+      "cache_ttl_sec": 300
+    },
+    {
+      "id": "the-register",
+      "enabled": true,
+      "type": "rss",
+      "name": "The Register",
+      "url": "https://www.theregister.com/security/headlines.atom",
+      "language": "en",
+      "country": "UK",
+      "cache_ttl_sec": 180
+    },
+    {
+      "id": "bleepingcomputer",
+      "enabled": true,
+      "type": "rss",
+      "name": "BleepingComputer",
+      "url": "https://www.bleepingcomputer.com/feed/",
+      "language": "en",
+      "country": "US",
+      "cache_ttl_sec": 180
+    },
+    {
+      "id": "krebs-security",
+      "enabled": true,
+      "type": "rss",
+      "name": "Krebs on Security",
+      "url": "https://krebsonsecurity.com/feed/",
+      "language": "en",
+      "country": "US",
+      "cache_ttl_sec": 600
+    },
+    {
+      "id": "cisa-alerts",
+      "enabled": true,
+      "type": "rss",
+      "name": "CISA Alerts",
+      "url": "https://www.cisa.gov/cybersecurity-advisories/all.xml",
+      "language": "en",
+      "country": "US",
+      "cache_ttl_sec": 180
+    },
+    {
+      "id": "nvd-cves",
+      "enabled": true,
+      "type": "nvd",
+      "name": "NVD CVE Feed",
+      "url": "https://services.nvd.nist.gov/rest/json/cves/2.0",
+      "language": "en",
+      "country": "US",
+      "cache_ttl_sec": 300
+    }
+  ]
+}

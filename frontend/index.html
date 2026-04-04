@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#2C2A29" />
+
+    <!-- Security: prevent MIME-type sniffing -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+
+    <!-- Security: block all referrer info leaving the page -->
+    <meta name="referrer" content="no-referrer" />
+
+    <!-- Security: deny embedding in iframes -->
+    <meta http-equiv="X-Frame-Options" content="DENY" />
+
+    <!-- Security: Content Security Policy
+         - scripts/styles/fonts from self only
+         - images allow data: for QR codes
+         - no plugins, no frames, no form submissions
+         - force HTTPS upgrades when available                    -->
+    <meta http-equiv="Content-Security-Policy"
+          content="
+            default-src 'self';
+            script-src 'self';
+            style-src 'self' 'unsafe-inline';
+            img-src 'self' data:;
+            connect-src 'self';
+            font-src 'self';
+            object-src 'none';
+            media-src 'none';
+            frame-src 'none';
+            frame-ancestors 'none';
+            base-uri 'self';
+            form-action 'none';
+            upgrade-insecure-requests;
+          " />
+
+    <title>Mowi IT InfoScreen</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
