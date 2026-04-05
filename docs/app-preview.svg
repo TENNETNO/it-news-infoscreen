@@ -1,0 +1,60 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="900" fill="#161514"/>
+  <rect x="24" y="24" width="1552" height="852" rx="28" fill="#1D1B1A" stroke="rgba(255,255,255,0.08)"/>
+  <rect x="52" y="52" width="1496" height="104" rx="18" fill="#2C2A29" stroke="rgba(255,255,255,0.08)"/>
+  <rect x="82" y="84" width="130" height="38" rx="8" fill="#FF6F4A" opacity="0.18"/>
+  <text x="82" y="80" fill="#FFFFFF" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="700" letter-spacing="3">MOWI</text>
+  <text x="82" y="109" fill="#FFFFFF" font-family="Segoe UI, Arial, sans-serif" font-size="28" font-weight="800" letter-spacing="3">IT INFOSCREEN</text>
+  <text x="82" y="132" fill="#FF6F4A" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" letter-spacing="4">LIVE OFFICE NEWS DASHBOARD</text>
+  <text x="1330" y="95" text-anchor="end" fill="#FFFFFF" font-family="Segoe UI, Arial, sans-serif" font-size="44" font-weight="800" letter-spacing="3">14:03</text>
+  <text x="1330" y="126" text-anchor="end" fill="#FF6F4A" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="700" letter-spacing="3">MONDAY 06 APR 2026</text>
+  <rect x="52" y="180" width="1496" height="610" rx="18" fill="#1D1B1A" stroke="rgba(255,255,255,0.08)"/>
+  <text x="78" y="214" fill="#FF6F4A" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="700" letter-spacing="5">LIVE FEED</text>
+  <g>
+    <rect x="78" y="236" width="708" height="258" rx="16" fill="#363230" stroke="rgba(255,255,255,0.10)"/>
+    <rect x="78" y="236" width="6" height="258" rx="3" fill="#FF6F4A"/>
+    <rect x="104" y="262" width="132" height="28" rx="8" fill="#FF6F4A"/>
+    <text x="170" y="281" text-anchor="middle" fill="#FFFFFF" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="800" letter-spacing="2">SECURITY</text>
+    <rect x="612" y="262" width="146" height="28" rx="14" fill="#2C2A29" stroke="rgba(255,255,255,0.10)"/>
+    <text x="685" y="281" text-anchor="middle" fill="#BBBBBB" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="700" letter-spacing="1.5">6 HOURS AGO</text>
+    <text x="104" y="334" fill="#FFFFFF" font-family="Segoe UI, Arial, sans-serif" font-size="34" font-weight="800"><tspan x="104" dy="0">Microsoft patches</tspan><tspan x="104" dy="42">critical enterprise</tspan><tspan x="104" dy="42">vulnerabilities</tspan></text>
+    <text x="104" y="462" fill="#BBBBBB" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="500"><tspan x="104" dy="0">Security updates dominate the latest cycle, with guidance for</tspan><tspan x="104" dy="30">Windows, identity hardening, and urgent patch rollout planning.</tspan></text>
+    <line x1="104" y1="520" x2="760" y2="520" stroke="rgba(255,255,255,0.10)"/>
+    <text x="104" y="555" fill="#FFFFFF" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="800" letter-spacing="2">BleepingComputer</text>
+    <text x="104" y="580" fill="#BBBBBB" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" letter-spacing="1.5">PUBLISHED 09:10 CET</text>
+    <rect x="690" y="536" width="58" height="58" rx="8" fill="#FFFFFF" opacity="0.9"/>
+    <path d="M706 553H732V579H706V553ZM712 559V573H726V559H712Z" fill="#161514"/>
+  </g>
+  <g>
+    <rect x="814" y="236" width="708" height="258" rx="16" fill="#2C2A29" stroke="rgba(255,255,255,0.10)"/>
+    <rect x="840" y="262" width="116" height="28" rx="8" fill="#FF6F4A"/>
+    <text x="898" y="281" text-anchor="middle" fill="#FFFFFF" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="800" letter-spacing="2">NORWAY</text>
+    <rect x="1348" y="262" width="146" height="28" rx="14" fill="#1D1B1A" stroke="rgba(255,255,255,0.10)"/>
+    <text x="1421" y="281" text-anchor="middle" fill="#BBBBBB" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="700" letter-spacing="1.5">TODAY</text>
+    <text x="840" y="334" fill="#FFFFFF" font-family="Segoe UI, Arial, sans-serif" font-size="34" font-weight="800"><tspan x="840" dy="0">Norwegian firms expand</tspan><tspan x="840" dy="42">AI governance and data</tspan><tspan x="840" dy="42">residency controls</tspan></text>
+    <text x="840" y="462" fill="#BBBBBB" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="500"><tspan x="840" dy="0">The dashboard balances Norway-specific headlines with global</tspan><tspan x="840" dy="30">IT reporting for office screens that need quick scanning.</tspan></text>
+    <line x1="840" y1="520" x2="1496" y2="520" stroke="rgba(255,255,255,0.10)"/>
+    <text x="840" y="555" fill="#FFFFFF" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="800" letter-spacing="2">Kode24</text>
+    <text x="840" y="580" fill="#BBBBBB" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" letter-spacing="1.5">PUBLISHED 11:25 CET</text>
+    <rect x="1426" y="536" width="58" height="58" rx="8" fill="#FFFFFF" opacity="0.9"/>
+    <path d="M1442 553H1468V579H1442V553ZM1448 559V573H1462V559H1448Z" fill="#161514"/>
+  </g>
+  <g>
+    <rect x="78" y="520" width="708" height="244" rx="16" fill="#2C2A29" stroke="rgba(255,255,255,0.10)"/>
+    <rect x="104" y="546" width="88" height="28" rx="8" fill="#FF6F4A"/>
+    <text x="148" y="565" text-anchor="middle" fill="#FFFFFF" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="800" letter-spacing="2">AI</text>
+    <text x="104" y="618" fill="#FFFFFF" font-family="Segoe UI, Arial, sans-serif" font-size="29" font-weight="800"><tspan x="104" dy="0">Model releases, tooling,</tspan><tspan x="104" dy="38">and enterprise adoption</tspan></text>
+    <text x="104" y="706" fill="#BBBBBB" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="500"><tspan x="104" dy="0">Stories are grouped into categories and rotated</tspan><tspan x="104" dy="28">across a 2x2 layout built for TVs.</tspan></text>
+  </g>
+  <g>
+    <rect x="814" y="520" width="708" height="244" rx="16" fill="#2C2A29" stroke="rgba(255,255,255,0.10)"/>
+    <rect x="840" y="546" width="112" height="28" rx="8" fill="#FF6F4A"/>
+    <text x="896" y="565" text-anchor="middle" fill="#FFFFFF" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="800" letter-spacing="2">CLOUD</text>
+    <text x="840" y="618" fill="#FFFFFF" font-family="Segoe UI, Arial, sans-serif" font-size="29" font-weight="800"><tspan x="840" dy="0">Cloud operations, vendor</tspan><tspan x="840" dy="38">news, and platform shifts</tspan></text>
+    <text x="840" y="706" fill="#BBBBBB" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="500"><tspan x="840" dy="0">A bottom ticker surfaces additional recent items</tspan><tspan x="840" dy="28">from the last ten days.</tspan></text>
+  </g>
+  <rect x="52" y="808" width="1496" height="44" rx="18" fill="#2C2A29" stroke="rgba(255,255,255,0.08)"/>
+  <rect x="78" y="817" width="122" height="26" rx="8" fill="#FF6F4A"/>
+  <text x="139" y="835" text-anchor="middle" fill="#FFFFFF" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="800" letter-spacing="2">LATEST</text>
+  <text x="224" y="835" fill="#BBBBBB" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="600">Security patch Tuesday updates • Azure platform changes • Nordic AI regulation coverage • Cloud outage retrospectives</text>
+</svg>

@@ -1,50 +1,50 @@
 # IT News InfoScreen
 
-Browser-based fullscreen IT news dashboard for office TVs, optimized for Norway-based teams with content in Norwegian and English. The application now builds as a static site for GitHub Pages instead of starting as a packaged `.exe`.
+Browser-based fullscreen IT news dashboard for office TVs, optimized for Norway-based teams with content in Norwegian and English. The current version builds as a static site for GitHub Pages while reusing the backend news aggregation pipeline during the build step.
 
-## Features
+## App Preview
 
-- Build-time news aggregation using the existing backend feed logic.
-- Generated static JSON consumed directly by the browser app.
-- Fullscreen TV-friendly dashboard with rotating story highlights and QR codes.
-- Automatic client reload at 03:30 Europe/Oslo after 24 hours of uptime.
-- GitHub Pages deployment workflow with scheduled refreshes.
+![IT News InfoScreen app preview](docs/app-preview.svg)
+
+## What It Does
+
+- Aggregates IT news at build time using the existing backend feed logic.
+- Generates static JSON that the frontend reads directly in the browser.
+- Renders a TV-friendly 2x2 live feed with rotating highlights, timestamps, and QR codes.
+- Shows a bottom ticker with recent stories from the last ten days.
+- Reloads automatically at 03:30 Europe/Oslo after 24 hours of uptime.
+- Deploys cleanly to GitHub Pages with scheduled refreshes.
+
+## Stack
+
+- `frontend/`: Vite + React dashboard UI
+- `backend/`: Node-based source fetching, scraping, normalization, and categorization
+- `scripts/generate-static-news.mjs`: bridge that generates `frontend/public/data/news.json`
+- `.github/workflows/deploy-pages.yml`: GitHub Pages deployment workflow
 
 ## Project Structure
 
 ```text
 it-news-infoscreen/
   .github/workflows/
-    deploy-pages.yml
   backend/
     src/
       config/
-        index.js
-        sources.json
+      middleware/
+      routes/
       services/
-        newsService.js
       utils/
-        cache.js
-        categorization.js
-        dedupe.js
-        scraper.js
-      server.js
+  docs/
+    app-preview.svg
   frontend/
     public/
       data/
-        news.json
     src/
       components/
       hooks/
       utils/
-      App.jsx
-      main.jsx
-      styles.css
-    index.html
-    vite.config.js
   scripts/
-    generate-static-news.mjs
-  package.json
+  release/
 ```
 
 ## Install
@@ -56,16 +56,16 @@ npm install --prefix backend
 npm install --prefix frontend
 ```
 
-## Build For Browser
+## Build The Static Site
 
 ```bash
 npm run build
 ```
 
-This does two things:
+This will:
 
-- Fetches and normalizes the latest news into `frontend/public/data/news.json`
-- Builds the static site into `frontend/dist`
+- fetch and normalize the latest stories into `frontend/public/data/news.json`
+- build the frontend into `frontend/dist`
 
 ## Preview Locally
 
@@ -73,30 +73,39 @@ This does two things:
 npm run preview --prefix frontend
 ```
 
-Open:
+Open `http://localhost:4173/it-news-infoscreen/`
 
-- `http://localhost:4173/it-news-infoscreen/`
+## Local Development
 
-## GitHub Pages Deployment
+Run the backend and frontend together:
 
-The included workflow publishes the site to:
+```bash
+npm run dev
+```
+
+- Frontend dev server: `http://localhost:5173`
+- Backend API: `http://localhost:8080`
+
+## Deployment
+
+The included workflow publishes the static site to:
 
 - `https://tennetno.github.io/it-news-infoscreen/`
 
-Deployment triggers:
+Deployment can be triggered by:
 
-- Push to `main`
-- Manual `workflow_dispatch`
-- Hourly scheduled rebuilds to refresh the generated news data
+- push to `main`
+- manual `workflow_dispatch`
+- scheduled rebuilds to refresh generated news data
 
-To use it in GitHub:
+To enable GitHub Pages:
 
-1. Push this repository to GitHub.
-2. In the repository settings, open `Pages`.
+1. Push the repository to GitHub.
+2. Open repository `Settings -> Pages`.
 3. Set the source to `GitHub Actions`.
 4. Push to `main` or run the workflow manually.
 
-## Data Format
+## Data Shape
 
 The generated `frontend/public/data/news.json` file contains:
 
@@ -118,27 +127,14 @@ Each item contains:
 
 ## Source Configuration
 
-Edit `backend/src/config/sources.json`.
-
-After changing sources, rebuild with:
+Update `backend/src/config/sources.json`, then rebuild:
 
 ```bash
 npm run build
 ```
 
-## Optional Backend Development
-
-The Node backend is still available for local development work:
-
-```bash
-npm run dev
-```
-
-- Frontend dev server: `http://localhost:5173`
-- Backend API: `http://localhost:8080`
-
 ## Notes
 
-- GitHub Pages is static-only, so the previous server-side cookie authentication flow is not part of the deployed Pages version.
-- The backend remains in the repo and is reused during the build step to generate the static news file.
-- For TV usage, open the GitHub Pages URL in the browser and enable kiosk or fullscreen mode there.
+- GitHub Pages is static-only, so server-side cookie authentication is not used in the deployed version.
+- The backend still lives in the repository and is reused during builds to generate static news data.
+- For office-TV usage, open the deployed URL in the browser and enable fullscreen or kiosk mode.
