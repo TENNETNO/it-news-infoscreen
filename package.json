@@ -5,7 +5,9 @@
   "description": "Production-ready IT news infoscreen for office TVs",
   "scripts": {
     "dev": "concurrently \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\"",
-    "build": "npm run build --prefix frontend",
+    "generate:data": "node scripts/generate-static-news.mjs",
+    "build": "npm run generate:data && npm run build --prefix frontend",
+    "build:web": "npm run build",
     "start": "npm run start --prefix backend",
     "package:win": "node build-exe.js"
   },

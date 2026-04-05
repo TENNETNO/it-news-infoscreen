@@ -1,10 +1,9 @@
-﻿import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { HeaderBar } from "./components/HeaderBar.jsx";
-import { LoginScreen } from "./components/LoginScreen.jsx";
 import { NewsCard } from "./components/NewsCard.jsx";
 import { Ticker } from "./components/Ticker.jsx";
-import { useAuth } from "./hooks/useAuth.js";
 import { useNewsPolling } from "./hooks/useNewsPolling.js";
+import { withBase } from "./utils/paths.js";
 import { formatTimeAgo, oslotime } from "./utils/time.js";
 
 const CATEGORY_ORDER = ["security", "norway", "ai", "cloud"];
@@ -15,7 +14,6 @@ function pickTopFour(items) {
   const usedCategories = new Set();
   const result = [];
 
-  // First pass: strictly one per category, no duplicates
   for (const cat of CATEGORY_ORDER) {
     const item = items.find((i) => i.category === cat && !usedIds.has(i.id));
     if (item) {
@@ -25,7 +23,6 @@ function pickTopFour(items) {
     }
   }
 
-  // Fill remaining slots — never repeat a category already shown
   for (const item of items) {
     if (result.length >= 4) break;
     if (!usedIds.has(item.id) && !usedCategories.has(item.category)) {
@@ -35,7 +32,6 @@ function pickTopFour(items) {
     }
   }
 
-  // Last resort fill if still under 4 (ignore category uniqueness)
   for (const item of items) {
     if (result.length >= 4) break;
     if (!usedIds.has(item.id)) {
@@ -65,12 +61,11 @@ function importanceScore(item) {
 }
 
 export default function App() {
-  const { status, login } = useAuth();
   const [highlightIndex, setHighlightIndex] = useState(0);
   const [clock, setClock] = useState(new Date());
 
   const topFeed = useNewsPolling({
-    url: "/api/news?limit=40",
+    url: withBase("data/news.json"),
     intervalMs: 600000,
     backoffSequence: BACKOFF_SEQUENCE
   });
@@ -131,9 +126,6 @@ export default function App() {
     return () => window.clearInterval(timer);
   }, []);
 
-  if (status === "loading") return null;
-  if (status === "unauthenticated") return <LoginScreen onLogin={login} />;
-
   return (
     <div className="app-shell">
       <HeaderBar now={clock} />
@@ -158,4 +150,3 @@ export default function App() {
     </div>
   );
 }
-

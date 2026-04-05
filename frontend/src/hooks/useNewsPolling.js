@@ -1,4 +1,4 @@
-﻿import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export function useNewsPolling({ url, intervalMs, backoffSequence }) {
   const [data, setData] = useState(null);
@@ -21,10 +21,18 @@ export function useNewsPolling({ url, intervalMs, backoffSequence }) {
 
   const fetchLoop = useCallback(async () => {
     try {
-      const response = await fetch(url, { headers: { Accept: "application/json" } });
+      const requestUrl = new URL(url, window.location.href);
+      requestUrl.searchParams.set("t", String(Date.now()));
+
+      const response = await fetch(requestUrl, {
+        headers: { Accept: "application/json" },
+        cache: "no-store"
+      });
+
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}`);
       }
+
       const payload = await response.json();
       setData(payload);
       setOnline(true);

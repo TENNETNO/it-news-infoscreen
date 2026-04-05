@@ -1,10 +1,11 @@
 import { formatDate, formatTime } from "../utils/time.js";
+import { withBase } from "../utils/paths.js";
 
 export function HeaderBar({ now }) {
   return (
     <header className="header-bar">
       <div className="brand-wrap">
-        <img className="brand-logo" src="/mowi-logo.png" alt="Mowi" />
+        <img className="brand-logo" src={withBase("mowi-logo.png")} alt="Mowi" />
         <div className="brand-text">
           <div className="brand-title">IT News Dashboard</div>
           <div className="brand-subtitle">Office InfoScreen</div>
