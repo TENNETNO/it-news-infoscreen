@@ -33,7 +33,6 @@ export function NewsCard({ item, highlighted, timeAgo, mode = "default" }) {
         <div className="feature-visual-wrap">
           <img className="feature-visual" src={imageSrc} alt="" />
           <div className="feature-scrim" />
-          <img className="feature-logo" src={withBase("mowi-logo.svg")} alt="Mowi" />
         </div>
       ) : null}
 

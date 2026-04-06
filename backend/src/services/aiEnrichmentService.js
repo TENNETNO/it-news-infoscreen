@@ -308,7 +308,7 @@ export async function enrichNewsItems(items) {
     geminiApiKey: process.env.GEMINI_API_KEY || "",
     geminiSummaryModel: process.env.GEMINI_SUMMARY_MODEL || "gemini-2.5-flash",
     geminiImageModel: process.env.GEMINI_IMAGE_MODEL || "gemini-3.1-flash-image-preview",
-    maxItems: readPositiveInt(process.env.AI_ENRICH_MAX_ITEMS, 4),
+    maxItems: readPositiveInt(process.env.AI_ENRICH_MAX_ITEMS, 200),
     concurrency: readPositiveInt(process.env.AI_ENRICH_CONCURRENCY, 1)
   };
 

@@ -6,7 +6,7 @@ on:
       - main
   workflow_dispatch:
   schedule:
-    - cron: "0 7,11 * * 1-5"
+    - cron: "0 1 * * 1-5"
 
 permissions:
   contents: read
@@ -24,8 +24,8 @@ jobs:
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       GEMINI_SUMMARY_MODEL: gemini-2.5-flash
       GEMINI_IMAGE_MODEL: gemini-3.1-flash-image-preview
-      AI_ENRICH_MAX_ITEMS: 40
-      AI_ENRICH_CONCURRENCY: 2
+      AI_ENRICH_MAX_ITEMS: 200
+      AI_ENRICH_CONCURRENCY: 1
 
     steps:
       - name: Checkout

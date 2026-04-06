@@ -1,4 +1,4 @@
-# IT News InfoScreen
+﻿# IT News InfoScreen
 
 Browser-based fullscreen IT news dashboard for office TVs, optimized for Norway-based teams with content in Norwegian and English. The current version builds as a static site for GitHub Pages while reusing the backend news aggregation pipeline during the build step.
 
@@ -10,10 +10,10 @@ Browser-based fullscreen IT news dashboard for office TVs, optimized for Norway-
 
 - Aggregates IT news at build time using the existing backend feed logic.
 - Can optionally rewrite each story with Gemini into short, easy, user-friendly text.
-- Can optionally generate a matching story image with Gemini and show a Mowi logo overlay on the top-left.
+- Can optionally generate a matching story image with Gemini.
 - Stops Gemini requests for the rest of the Oslo day if the daily AI quota is exhausted.
 - Generates static JSON that the frontend reads directly in the browser.
-- Renders a TV-friendly 2x2 live feed with rotating highlights, timestamps, QR codes, and optional story images.
+- Renders a TV-friendly featured-story slider with a side queue, timestamps, QR codes, and optional story images.
 - Shows a bottom ticker with recent stories from the last ten days.
 - Reloads automatically at 03:30 Europe/Oslo after 24 hours of uptime.
 - Deploys cleanly to GitHub Pages with scheduled refreshes.
@@ -102,12 +102,14 @@ Deployment can be triggered by:
 
 - push to `main`
 - manual `workflow_dispatch`
-- scheduled rebuilds twice per weekday at `07:00 UTC` and `11:00 UTC`
+- scheduled overnight rebuilds on weekdays at `01:00 UTC`
 
 For Oslo time this is:
 
-- `08:00` and `12:00` in winter
-- `09:00` and `13:00` in summer
+- `02:00` in winter
+- `03:00` in summer
+
+This overnight build is intended to prepare the full day's stories before business hours.
 
 To enable GitHub Pages:
 
@@ -154,7 +156,6 @@ Behavior:
 
 - Gemini rewrites story summaries into plain, short office-friendly text.
 - Gemini generates one image per story and saves it to `frontend/public/generated/news-images/`.
-- The Mowi logo is rendered on top-left of the image in the UI so placement stays consistent.
 - Generated summaries and image metadata are cached in `backend/.cache/ai/` so unchanged stories are not regenerated every build.
 - If Gemini returns a quota-exceeded response, the app records that and skips the remaining Gemini requests until the next Oslo day.
 - If the Gemini key is missing, the app falls back to the original summaries and shows no generated images.

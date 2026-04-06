@@ -135,7 +135,6 @@ export default function App() {
               <span className="eyebrow">Featured Story</span>
               <h2>News Briefing</h2>
             </div>
-            <div className="rotation-chip">Rotates every 15 minutes</div>
           </div>
 
           {currentStory ? (
