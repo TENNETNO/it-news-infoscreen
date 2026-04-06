@@ -1,4 +1,4 @@
-name: Deploy GitHub Pages
+﻿name: Deploy GitHub Pages
 
 on:
   push:
@@ -20,6 +20,12 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      GEMINI_SUMMARY_MODEL: gemini-2.5-flash
+      GEMINI_IMAGE_MODEL: gemini-3.1-flash-image-preview
+      AI_ENRICH_MAX_ITEMS: 40
+      AI_ENRICH_CONCURRENCY: 2
 
     steps:
       - name: Checkout
