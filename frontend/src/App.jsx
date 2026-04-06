@@ -1,8 +1,9 @@
-﻿import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { HeaderBar } from "./components/HeaderBar.jsx";
 import { NewsCard } from "./components/NewsCard.jsx";
 import { Ticker } from "./components/Ticker.jsx";
 import { useNewsPolling } from "./hooks/useNewsPolling.js";
+import { buildDisplayTitle } from "./utils/copy.js";
 import { withBase } from "./utils/paths.js";
 import { formatTimeAgo, oslotime } from "./utils/time.js";
 
@@ -161,8 +162,8 @@ export default function App() {
                     >
                       <span className="rail-index">{String(index + 1).padStart(2, "0")}</span>
                       <span className="rail-copy">
-                        <span className="rail-headline">{item.title}</span>
-                        <span className="rail-meta">{item.source_name} · {formatTimeAgo(item.published_at)}</span>
+                        <span className="rail-headline">{buildDisplayTitle(item)}</span>
+                        <span className="rail-meta">{item.source_name} � {formatTimeAgo(item.published_at)}</span>
                       </span>
                     </button>
                   ))}

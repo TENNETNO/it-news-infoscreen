@@ -1,0 +1,49 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="166" y1="90" x2="1414" y2="820" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FF8A5B"/>
+      <stop offset="0.42" stop-color="#A44D2C"/>
+      <stop offset="1" stop-color="#201714"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1085 230) rotate(136.592) scale(569.967 454.064)">
+      <stop stop-color="#FFD27A" stop-opacity="0.72"/>
+      <stop offset="1" stop-color="#FFD27A" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="panel" x1="222" y1="240" x2="1228" y2="735" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#231D1A"/>
+      <stop offset="1" stop-color="#16110F"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <g opacity="0.14">
+    <path d="M0 121H1600" stroke="white"/>
+    <path d="M0 271H1600" stroke="white"/>
+    <path d="M0 421H1600" stroke="white"/>
+    <path d="M0 571H1600" stroke="white"/>
+    <path d="M0 721H1600" stroke="white"/>
+    <path d="M185 0V900" stroke="white"/>
+    <path d="M485 0V900" stroke="white"/>
+    <path d="M785 0V900" stroke="white"/>
+    <path d="M1085 0V900" stroke="white"/>
+    <path d="M1385 0V900" stroke="white"/>
+  </g>
+  <rect x="182" y="158" width="1236" height="584" rx="28" fill="url(#panel)" stroke="#FFFFFF" stroke-opacity="0.18"/>
+  <rect x="232" y="210" width="300" height="24" rx="12" fill="#FF8A5B" fill-opacity="0.84"/>
+  <rect x="232" y="262" width="684" height="82" rx="20" fill="white" fill-opacity="0.08"/>
+  <rect x="232" y="368" width="1112" height="22" rx="11" fill="white" fill-opacity="0.10"/>
+  <rect x="232" y="406" width="954" height="22" rx="11" fill="white" fill-opacity="0.08"/>
+  <rect x="232" y="444" width="1020" height="22" rx="11" fill="white" fill-opacity="0.08"/>
+  <rect x="232" y="538" width="416" height="136" rx="22" fill="#FF8A5B" fill-opacity="0.16" stroke="#FFFFFF" stroke-opacity="0.12"/>
+  <rect x="678" y="538" width="274" height="136" rx="22" fill="white" fill-opacity="0.05"/>
+  <rect x="980" y="538" width="318" height="136" rx="22" fill="white" fill-opacity="0.05"/>
+  <circle cx="1272" cy="286" r="112" fill="#FFB76C" fill-opacity="0.18"/>
+  <path d="M1222 287L1258 323L1334 245" stroke="#FFD98D" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+  <g opacity="0.86">
+    <rect x="1168" y="448" width="166" height="14" rx="7" fill="#FFD98D"/>
+    <rect x="1168" y="476" width="130" height="14" rx="7" fill="#FFD98D" fill-opacity="0.72"/>
+    <rect x="1168" y="504" width="144" height="14" rx="7" fill="#FFD98D" fill-opacity="0.52"/>
+  </g>
+  <text x="232" y="117" fill="white" fill-opacity="0.72" font-family="Segoe UI, Arial, sans-serif" font-size="32" letter-spacing="0.24em">TEST IMAGE</text>
+  <text x="232" y="324" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="52" font-weight="700">AI-generated placeholder for feature story preview</text>
+</svg>
