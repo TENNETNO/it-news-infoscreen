@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+﻿import { useEffect, useMemo, useState } from "react";
 import { HeaderBar } from "./components/HeaderBar.jsx";
 import { NewsCard } from "./components/NewsCard.jsx";
 import { Ticker } from "./components/Ticker.jsx";
@@ -8,39 +8,33 @@ import { formatTimeAgo, oslotime } from "./utils/time.js";
 
 const CATEGORY_ORDER = ["security", "norway", "ai", "cloud"];
 const BACKOFF_SEQUENCE = [10000, 30000, 60000, 120000];
+const SLIDE_INTERVAL_MS = 15 * 60 * 1000;
+const FEATURED_STORY_LIMIT = 8;
 
-function pickTopFour(items) {
+function pickFeaturedStories(items, limit = FEATURED_STORY_LIMIT) {
   const usedIds = new Set();
-  const usedCategories = new Set();
-  const result = [];
+  const results = [];
 
-  for (const cat of CATEGORY_ORDER) {
-    const item = items.find((i) => i.category === cat && !usedIds.has(i.id));
+  for (const category of CATEGORY_ORDER) {
+    const item = items.find((candidate) => candidate.category === category && !usedIds.has(candidate.id));
     if (item) {
-      result.push(item);
+      results.push(item);
       usedIds.add(item.id);
-      usedCategories.add(item.category);
     }
   }
 
   for (const item of items) {
-    if (result.length >= 4) break;
-    if (!usedIds.has(item.id) && !usedCategories.has(item.category)) {
-      result.push(item);
-      usedIds.add(item.id);
-      usedCategories.add(item.category);
+    if (results.length >= limit) {
+      break;
     }
-  }
 
-  for (const item of items) {
-    if (result.length >= 4) break;
     if (!usedIds.has(item.id)) {
-      result.push(item);
+      results.push(item);
       usedIds.add(item.id);
     }
   }
 
-  return result;
+  return results;
 }
 
 function isWithinLastDays(date, days) {
@@ -70,12 +64,14 @@ export default function App() {
     backoffSequence: BACKOFF_SEQUENCE
   });
 
-  const topStories = useMemo(() => {
+  const featuredStories = useMemo(() => {
     const items = topFeed.data?.items ?? [];
-    return pickTopFour(items);
+    return pickFeaturedStories(items);
   }, [topFeed.data]);
 
-  const tenDayTickerItems = useMemo(() => {
+  const currentStory = featuredStories[highlightIndex] ?? null;
+
+  const tickerItems = useMemo(() => {
     const recent = (topFeed.data?.items ?? []).filter((item) => isWithinLastDays(item.published_at, 10));
 
     return recent
@@ -95,16 +91,18 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (!topStories.length) {
+    if (!featuredStories.length) {
       return undefined;
     }
 
+    setHighlightIndex((current) => Math.min(current, featuredStories.length - 1));
+
     const timer = window.setInterval(() => {
-      setHighlightIndex((current) => (current + 1) % topStories.length);
-    }, 20000);
+      setHighlightIndex((current) => (current + 1) % featuredStories.length);
+    }, SLIDE_INTERVAL_MS);
 
     return () => window.clearInterval(timer);
-  }, [topStories.length]);
+  }, [featuredStories.length]);
 
   useEffect(() => {
     const startedAt = Date.now();
@@ -127,26 +125,60 @@ export default function App() {
   }, []);
 
   return (
-    <div className="app-shell">
+    <div className="app-shell slider-shell">
       <HeaderBar now={clock} />
 
-      <main className="main-grid">
-        <section className="top-stories">
-          <h2>Live Feed</h2>
-          <div className="top-story-grid">
-            {topStories.map((item, index) => (
-              <NewsCard
-                key={item.id}
-                item={item}
-                highlighted={index === highlightIndex}
-                timeAgo={formatTimeAgo(item.published_at)}
-              />
-            ))}
+      <main className="slider-main">
+        <section className="feature-stage">
+          <div className="section-heading">
+            <div>
+              <span className="eyebrow">Featured Story</span>
+              <h2>News Briefing</h2>
+            </div>
+            <div className="rotation-chip">Rotates every 15 minutes</div>
           </div>
+
+          {currentStory ? (
+            <div className="feature-layout">
+              <NewsCard
+                item={currentStory}
+                highlighted
+                timeAgo={formatTimeAgo(currentStory.published_at)}
+                mode="feature"
+              />
+
+              <aside className="story-rail" aria-label="Story queue">
+                <div className="rail-title">Queue</div>
+                <div className="story-progress">
+                  Story {highlightIndex + 1} of {featuredStories.length}
+                </div>
+                <div className="rail-list">
+                  {featuredStories.map((item, index) => (
+                    <button
+                      key={item.id}
+                      type="button"
+                      className={`rail-item ${index === highlightIndex ? "active" : ""}`}
+                      onClick={() => setHighlightIndex(index)}
+                    >
+                      <span className="rail-index">{String(index + 1).padStart(2, "0")}</span>
+                      <span className="rail-copy">
+                        <span className="rail-headline">{item.title}</span>
+                        <span className="rail-meta">{item.source_name} · {formatTimeAgo(item.published_at)}</span>
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </aside>
+            </div>
+          ) : (
+            <section className="top-stories">
+              <h2>Loading</h2>
+            </section>
+          )}
         </section>
       </main>
 
-      <Ticker items={tenDayTickerItems} />
+      <Ticker items={tickerItems} />
     </div>
   );
 }
