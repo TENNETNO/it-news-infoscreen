@@ -10,6 +10,8 @@ const aiCacheDir = path.join(repoRoot, "backend", ".cache", "ai");
 const aiStateFile = path.join(repoRoot, "backend", ".cache", "ai-state.json");
 const imageOutputDir = path.join(repoRoot, "frontend", "public", "generated", "news-images");
 const publicImageDir = "generated/news-images";
+const SUMMARY_PROMPT_VERSION = "2026-04-07-short-title-v1";
+const IMAGE_PROMPT_VERSION = "2026-04-07-vector-style-v1";
 
 function readPositiveInt(value, fallback) {
   const parsed = Number.parseInt(value, 10);
@@ -26,7 +28,17 @@ function sanitizeSummary(text, fallback) {
     return fallback;
   }
 
-  return cleaned.length > 240 ? `${cleaned.slice(0, 237).trim()}...` : cleaned;
+  return cleaned.length > 360 ? `${cleaned.slice(0, 357).trim()}...` : cleaned;
+}
+
+function sanitizeShortTitle(text, fallback) {
+  const source = String(text || fallback || "").replace(/\s+/g, " ").trim();
+  if (!source) {
+    return fallback;
+  }
+
+  const words = source.split(" ").filter(Boolean).slice(0, 8);
+  return words.join(" ").replace(/[.!?:;,]+$/g, "").trim() || fallback;
 }
 
 function extractGeminiText(payload) {
@@ -41,6 +53,35 @@ function extractGeminiText(payload) {
   }
 
   return parts.join(" ").trim();
+}
+
+function parseSummaryResponse(rawText, item) {
+  const fallback = {
+    shortTitle: sanitizeShortTitle(item.title, item.title),
+    summary: sanitizeSummary(item.summary, item.summary)
+  };
+
+  if (!rawText) {
+    return fallback;
+  }
+
+  const text = String(rawText).trim();
+
+  try {
+    const parsed = JSON.parse(text);
+    return {
+      shortTitle: sanitizeShortTitle(parsed.short_title, fallback.shortTitle),
+      summary: sanitizeSummary(parsed.summary, fallback.summary)
+    };
+  } catch {
+    const shortTitleMatch = text.match(/short[_ ]title\s*[:=-]\s*(.+)/i);
+    const summaryMatch = text.match(/summary\s*[:=-]\s*([\s\S]+)/i);
+
+    return {
+      shortTitle: sanitizeShortTitle(shortTitleMatch?.[1], fallback.shortTitle),
+      summary: sanitizeSummary(summaryMatch?.[1] || text, fallback.summary)
+    };
+  }
 }
 
 function extractGeminiInlineImage(payload) {
@@ -76,9 +117,11 @@ function currentOsloDateKey() {
 
 function buildSummaryPrompt(item) {
   return [
-    "Rewrite this news story as a friendly short summary for an office infoscreen.",
-    "Use easy words, a clear tone, and make it feel interesting.",
-    "Rules: 2 short sentences, max 45 words total, no bullet points, no hype, no quotes, no hashtags.",
+    "Rewrite this news story for an office infoscreen and return valid JSON.",
+    "Write easy, clear English.",
+    'Return exactly this shape: {"short_title":"...","summary":"..."}',
+    "Rules for short_title: max 8 words, complete thought, no ellipsis, no quotes unless essential.",
+    "Rules for summary: 60 to 70 words, simple wording, interesting but not hype, no bullet points.",
     `Title: ${item.title}`,
     `Current summary: ${item.summary}`,
     `Source: ${item.source_name}`,
@@ -90,11 +133,19 @@ function buildSummaryPrompt(item) {
 
 function buildImagePrompt(item) {
   return [
-    "Create a clean, modern editorial illustration or realistic news-style scene for this IT news story.",
-    "Focus on the topic only. Do not add text, captions, UI chrome, watermarks, logos, or brand marks.",
-    "Make it visually strong for a widescreen office dashboard card, 16:9 composition.",
-    `Story title: ${item.title}`,
-    `Story summary: ${item.summary}`,
+    "Generate a modern flat vector illustration based on the subject line of this news story.",
+    "Style: clean outline monoline style, thick consistent stroke lines, smooth rounded edges, minimal shading, no gradients, no textures.",
+    "Use ONLY this palette and close tones from it: #2C2A29, #FF6F4A, #BBBBBB, #FFFFFF, #2B2D2F, #363230, #425563, #B18978.",
+    "Avoid brown tones as much as possible. Use #B18978 only very subtly if needed.",
+    "Show a simple faceless character that clearly represents the concept and performs an action that communicates it.",
+    "Represent the subject with abstract UI elements and symbols, not real-world environments.",
+    "Use minimal cards, charts, dashboards, icons, or panels that match the subject. Keep them geometric, modern, and uncluttered.",
+    "Place the composition inside a soft organic cloud-like blob with a clean salmon #FF6F4A outline.",
+    "Some elements should slightly extend outside the cloud boundary to create a layered composition.",
+    "High contrast only. Use #2B2D2F, white, and salmon as the main accents.",
+    "Isolated object only. Transparent background. PNG. No background, no shadows, no environment, no decorative text, no marketing banners, no logos, no watermarks.",
+    `Subject line: ${item.short_title || item.title}`,
+    `Story summary for context: ${item.summary}`,
     `Category: ${item.category}`,
     `Source: ${item.source_name}`
   ].join("\n");
@@ -172,9 +223,12 @@ async function callGeminiModel(model, apiKey, body, timeoutMs) {
   return response.json();
 }
 
-async function generateSummary(item, settings) {
+async function generateSummaryContent(item, settings) {
   if (!settings.geminiApiKey) {
-    return item.summary;
+    return {
+      shortTitle: sanitizeShortTitle(item.title, item.title),
+      summary: item.summary
+    };
   }
 
   const payload = await callGeminiModel(
@@ -189,12 +243,15 @@ async function generateSummary(item, settings) {
             }
           ]
         }
-      ]
+      ],
+      generationConfig: {
+        responseMimeType: "application/json"
+      }
     },
     30000
   );
 
-  return sanitizeSummary(extractGeminiText(payload), item.summary);
+  return parseSummaryResponse(extractGeminiText(payload), item);
 }
 
 async function generateImage(item, settings) {
@@ -237,22 +294,31 @@ async function generateImage(item, settings) {
 
 async function enrichItem(item, settings) {
   const cache = await readCache(item.id);
-  const summaryCacheValid = Boolean(cache?.summary && cache.summaryModel === settings.geminiSummaryModel);
+  const summaryCacheValid = Boolean(
+    cache?.summary &&
+    cache?.short_title &&
+    cache.summaryModel === settings.geminiSummaryModel &&
+    cache.summaryPromptVersion === SUMMARY_PROMPT_VERSION
+  );
   const imageCacheValid = Boolean(
     cache?.image_url &&
     cache.imageModel === settings.geminiImageModel &&
+    cache.imagePromptVersion === IMAGE_PROMPT_VERSION &&
     existsSync(path.join(repoRoot, "frontend", "public", cache.image_url))
   );
 
   const next = {
     ...item,
+    short_title: summaryCacheValid ? cache.short_title : sanitizeShortTitle(item.title, item.title),
     summary: summaryCacheValid ? cache.summary : item.summary,
     image_url: imageCacheValid ? cache.image_url : ""
   };
 
   if (!summaryCacheValid) {
     try {
-      next.summary = await generateSummary(item, settings);
+      const content = await generateSummaryContent(item, settings);
+      next.short_title = content.shortTitle;
+      next.summary = content.summary;
     } catch (error) {
       if (isQuotaExceededError(error)) {
         await markQuotaExhausted(error.message);
@@ -277,10 +343,13 @@ async function enrichItem(item, settings) {
   await writeCache(item.id, {
     id: item.id,
     generatedAt: new Date().toISOString(),
+    short_title: next.short_title,
     summary: next.summary,
     image_url: next.image_url,
     summaryModel: settings.geminiSummaryModel,
-    imageModel: settings.geminiImageModel
+    imageModel: settings.geminiImageModel,
+    summaryPromptVersion: SUMMARY_PROMPT_VERSION,
+    imagePromptVersion: IMAGE_PROMPT_VERSION
   });
 
   return next;
@@ -313,12 +382,20 @@ export async function enrichNewsItems(items) {
   };
 
   if (!settings.geminiApiKey) {
-    return items.map((item) => ({ ...item, image_url: item.image_url || "" }));
+    return items.map((item) => ({
+      ...item,
+      short_title: sanitizeShortTitle(item.title, item.title),
+      image_url: item.image_url || ""
+    }));
   }
 
   if (await isQuotaBlockedToday()) {
     console.log(`[ai] Gemini quota already marked exhausted for ${currentOsloDateKey()}; skipping AI enrichment.`);
-    return items.map((item) => ({ ...item, image_url: item.image_url || "" }));
+    return items.map((item) => ({
+      ...item,
+      short_title: sanitizeShortTitle(item.title, item.title),
+      image_url: item.image_url || ""
+    }));
   }
 
   const limitedCount = Math.min(settings.maxItems, items.length);
@@ -329,14 +406,25 @@ export async function enrichNewsItems(items) {
       settings.concurrency,
       (item) => enrichItem(item, settings)
     );
-    const tail = items.slice(limitedCount).map((item) => ({ ...item, image_url: item.image_url || "" }));
+    const tail = items.slice(limitedCount).map((item) => ({
+      ...item,
+      short_title: sanitizeShortTitle(item.title, item.title),
+      image_url: item.image_url || ""
+    }));
     return [...head, ...tail];
   } catch (error) {
     if (isQuotaExceededError(error)) {
       console.error(`[ai] Gemini quota exhausted for ${currentOsloDateKey()}; skipping remaining AI requests today.`);
-      return items.map((item) => ({ ...item, image_url: item.image_url || "" }));
+      return items.map((item) => ({
+        ...item,
+        short_title: sanitizeShortTitle(item.title, item.title),
+        image_url: item.image_url || ""
+      }));
     }
 
     throw error;
   }
 }
+
+
+

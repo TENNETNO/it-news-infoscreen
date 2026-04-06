@@ -163,7 +163,7 @@ export default function App() {
                       <span className="rail-index">{String(index + 1).padStart(2, "0")}</span>
                       <span className="rail-copy">
                         <span className="rail-headline">{buildDisplayTitle(item)}</span>
-                        <span className="rail-meta">{item.source_name} · {formatTimeAgo(item.published_at)}</span>
+                        <span className="rail-meta">{item.source_name} / {formatTimeAgo(item.published_at)}</span>
                       </span>
                     </button>
                   ))}
@@ -182,3 +182,7 @@ export default function App() {
     </div>
   );
 }
+
+
+
+

@@ -1,7 +1,7 @@
 /* ============================================================
    MOWI IT INFOSCREEN
-   Palette: #2C2A29 Â· #FF6F4A Â· #BBBBBB Â· #FFFFFF
-   Font: Futura Std â€º Century Gothic â€º Trebuchet MS
+   Palette: #2C2A29 · #FF6F4A · #BBBBBB · #FFFFFF
+   Font: Futura Std › Century Gothic › Trebuchet MS
 ============================================================ */
 
 :root {
@@ -37,7 +37,7 @@ html,
   background: var(--bg);
 }
 
-/* â”€â”€ App shell â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── App shell ──────────────────────────────────────────── */
 .app-shell {
   height: 100vh;
   display: grid;
@@ -47,7 +47,7 @@ html,
   overflow: hidden;
 }
 
-/* â”€â”€ Header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Header ─────────────────────────────────────────────── */
 .header-bar {
   background: var(--panel);
   border: 1px solid var(--outline);
@@ -95,7 +95,7 @@ html,
   color: var(--salmon);
 }
 
-/* clock â€” the centrepiece of any infoscreen */
+/* clock — the centrepiece of any infoscreen */
 .clock-wrap {
   justify-self: end;
   text-align: right;
@@ -119,7 +119,7 @@ html,
   letter-spacing: 0.1em;
 }
 
-/* â”€â”€ Main grid â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Main grid ───────────────────────────────────────────── */
 .main-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -145,7 +145,7 @@ h2 {
   color: var(--salmon);
 }
 
-/* 2Ã—2 grid â€” 4 cards fill the screen evenly */
+/* 2×2 grid — 4 cards fill the screen evenly */
 .top-story-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -155,7 +155,7 @@ h2 {
   min-height: 0;
 }
 
-/* â”€â”€ News cards â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── News cards ──────────────────────────────────────────── */
 .news-card {
   background: var(--panel);
   border: 1px solid var(--outline);
@@ -175,7 +175,7 @@ h2 {
   border-left-color: var(--salmon);
 }
 
-/* â”€â”€ Card rows â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Card rows ───────────────────────────────────────────── */
 .card-top {
   display: flex;
   justify-content: space-between;
@@ -274,7 +274,7 @@ h3 {
   height: 40px;
 }
 
-/* â”€â”€ Security list (sidebar / future use) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Security list (sidebar / future use) ────────────────── */
 .security-column {
   border: 1px solid var(--outline);
   border-radius: 10px;
@@ -331,7 +331,7 @@ h3 {
   font-size: 0.76rem;
 }
 
-/* â”€â”€ Ticker â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Ticker ──────────────────────────────────────────────── */
 .ticker {
   background: var(--panel-lift);
   border: 1px solid var(--outline);
@@ -375,9 +375,9 @@ h3 {
   100% { transform: translateX(-50%); }
 }
 
-/* â”€â”€ Responsive â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Responsive ──────────────────────────────────────────── */
 
-/* 2Ã—2 grid holds all the way down â€” header adjusts at 1100px */
+/* 2×2 grid holds all the way down — header adjusts at 1100px */
 @media (max-width: 1100px) {
   .header-bar {
     grid-template-columns: 1fr 1fr;
@@ -396,12 +396,12 @@ h3 {
   }
 }
 
-/* tablet â€” keep 2Ã—2 grid but make it scrollable */
+/* tablet — keep 2×2 grid but make it scrollable */
 @media (max-width: 768px) {
   body,
   html,
   #root {
-    overflow: auto;
+    overflow: hidden;
   }
 
   .app-shell {
@@ -437,7 +437,7 @@ h3 {
   }
 
   .top-story-grid {
-    /* stay 2Ã—2 but let height be auto so cards scroll */
+    /* stay 2×2 but let height be auto so cards scroll */
     grid-template-rows: auto;
     height: auto;
     gap: 0.5rem;
@@ -473,14 +473,14 @@ h3 {
   }
 }
 
-/* â”€â”€ Login screen â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Login screen ────────────────────────────────────────── */
 .login-screen {
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--bg);
-  padding: 1rem;
+  padding: 0.35rem;
 }
 
 .login-card {
@@ -585,7 +585,7 @@ h3 {
   cursor: not-allowed;
 }
 
-/* mobile â€” single column */
+/* mobile — single column */
 @media (max-width: 480px) {
   .app-shell {
     padding: 0.4rem;
@@ -701,7 +701,7 @@ h3 {
   height: 100%;
   border: 1px solid var(--outline);
   border-radius: 20px;
-  padding: 1rem;
+  padding: 0.35rem;
   background: var(--panel);
   box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
   display: grid;
@@ -783,7 +783,7 @@ h3 {
   position: relative;
   z-index: 1;
   object-fit: contain;
-  padding: 1rem;
+  padding: 0.35rem;
   background: transparent;
 }
 
@@ -886,8 +886,9 @@ h3 {
 
 .story-rail {
   min-height: 0;
+  height: 100%;
   display: grid;
-  grid-template-rows: auto auto 1fr;
+  grid-template-rows: auto auto minmax(0, 1fr);
   gap: 0.55rem;
   padding: 0.95rem;
   border-radius: 18px;
@@ -914,10 +915,11 @@ h3 {
 
 .rail-list {
   min-height: 0;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   display: grid;
   gap: 0.55rem;
-  padding-right: 0.1rem;
+  padding-right: 0.35rem;
 }
 
 .rail-item {
@@ -987,8 +989,16 @@ h3 {
   }
 
   .story-rail {
-    max-height: 260px;
-  }
+  min-height: 0;
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr);
+  gap: 0.55rem;
+  padding: 0.95rem;
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
 }
 
 @media (max-width: 768px) {
@@ -1048,3 +1058,512 @@ h3 {
 
 
 
+
+/* Feature card layout override: move meta and QR into left panel */
+.feature-visual-wrap {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  min-height: 0;
+}
+
+.feature-media {
+  position: relative;
+  min-height: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.feature-visual-fallback {
+  object-position: center top;
+}
+
+.feature-body {
+  grid-template-rows: auto 1fr;
+}
+
+.feature-copy {
+  align-self: stretch;
+  max-width: 62ch;
+  display: grid;
+  align-content: start;
+}
+
+.feature-card p {
+  font-size: clamp(0.88rem, 1.12vw, 1.06rem);
+  line-height: 1.68;
+  -webkit-line-clamp: 8;
+  line-clamp: 8;
+}
+
+.feature-sidecar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 1rem;
+  padding: 1rem 1.1rem 1.1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+@media (max-width: 1100px) {
+  .feature-copy {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .feature-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+
+  .feature-visual-wrap {
+    grid-template-rows: minmax(220px, auto) auto;
+  }
+
+  .feature-sidecar {
+    grid-template-columns: 1fr auto;
+  }
+
+  .feature-card p {
+    -webkit-line-clamp: 7;
+    line-clamp: 7;
+  }
+}
+
+/* Feature reference layout */
+.feature-grid-reference {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) auto;
+  height: 100%;
+}
+
+.feature-visual-wrap-reference {
+  border-right: none;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 0.6rem 0.35rem 0.1rem 0.6rem;
+  background: transparent;
+}
+
+.feature-media-reference {
+  width: 100%;
+  height: 100%;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.feature-body-reference {
+  padding: 1.4rem 1.6rem 0.75rem 0.65rem;
+  display: flex;
+  align-items: flex-start;
+}
+
+.feature-copy-reference {
+  max-width: 100%;
+  align-self: flex-start;
+}
+
+.feature-body-reference .feature-copy-reference h3 {
+  color: var(--salmon);
+  font-size: clamp(2rem, 3.1vw, 3.55rem);
+  line-height: 1.06;
+  letter-spacing: -0.03em;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+}
+
+.feature-body-reference .feature-copy-reference p {
+  margin-top: 1rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: clamp(1rem, 1.3vw, 1.55rem);
+  line-height: 1.4;
+  -webkit-line-clamp: 6;
+  line-clamp: 6;
+}
+
+.feature-footer-reference {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 0.35rem 1.5rem 1.35rem;
+  border-top: none;
+  background: transparent;
+}
+
+.feature-meta-stack {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.feature-label-row {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.feature-label-row .category {
+  font-size: 1rem;
+  padding: 0;
+  background: transparent;
+  letter-spacing: 0.04em;
+}
+
+.feature-meta-line {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.feature-meta-line .source,
+.feature-meta-line .published,
+.feature-meta-line .story-link,
+.feature-divider {
+  font-size: 0.88rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.feature-meta-line .published,
+.feature-divider {
+  color: var(--muted);
+}
+
+.qr-panel-reference {
+  justify-items: end;
+  gap: 0.6rem;
+}
+
+.qr-panel-reference .qr-caption {
+  color: var(--salmon);
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
+}
+
+.qr-panel-reference .feature-qr {
+  width: 112px;
+  height: 112px;
+  border-radius: 0;
+}
+
+@media (max-width: 1100px) {
+  .feature-grid-reference {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+  }
+
+  .feature-visual-wrap-reference {
+    padding: 0.6rem 0.6rem 0.1rem;
+  }
+
+  .feature-body-reference {
+    padding: 0.2rem 1.25rem 0;
+  }
+
+  .feature-footer-reference {
+    padding: 0.5rem 1.25rem 1.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .feature-body-reference .feature-copy-reference h3 {
+    font-size: clamp(1.45rem, 7vw, 2.2rem);
+  }
+
+  .feature-body-reference .feature-copy-reference p {
+    font-size: 0.98rem;
+    -webkit-line-clamp: 7;
+    line-clamp: 7;
+  }
+
+  .feature-footer-reference {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .qr-panel-reference {
+    justify-items: start;
+  }
+}
+
+
+
+
+
+
+/* Feature reference layout fix */
+.feature-grid-reference {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) auto;
+  height: 100%;
+  min-height: 0;
+}
+
+.feature-visual-wrap-reference,
+.feature-body-reference {
+  min-height: 0;
+}
+
+.feature-body-reference {
+  padding: 1.25rem 1.5rem 0 0.65rem;
+  overflow: hidden;
+}
+
+.feature-copy-reference {
+  width: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.feature-body-reference .feature-copy-reference h3 {
+  font-size: clamp(1.8rem, 2.8vw, 3.1rem);
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+}
+
+.feature-body-reference .feature-copy-reference p {
+  font-size: clamp(0.96rem, 1.12vw, 1.28rem);
+  line-height: 1.38;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.feature-footer-reference {
+  align-self: end;
+  padding: 0.25rem 1.5rem 1rem;
+}
+
+.qr-panel-reference .feature-qr {
+  width: 96px;
+  height: 96px;
+}
+
+@media (max-width: 1100px) {
+  .feature-body-reference {
+    padding: 0.2rem 1.25rem 0;
+  }
+
+  .feature-footer-reference {
+    padding: 0.35rem 1.25rem 0.9rem;
+  }
+}
+
+/* Match right panel to main featured card background */
+.feature-body-reference,
+.feature-footer-reference {
+  background: var(--panel-lift);
+}
+
+/* Final override: allow featured explanation to use full height */
+.feature-body-reference .feature-copy-reference p {
+  display: block !important;
+  -webkit-line-clamp: unset !important;
+  line-clamp: unset !important;
+  -webkit-box-orient: initial !important;
+  overflow: visible !important;
+}
+
+
+/* Explicit solid right-panel background */
+.feature-body-reference,
+.feature-footer-reference {
+  background: #363230 !important;
+}
+
+/* Main featured card vertical padding */
+.feature-card {
+  padding-top: 20px !important;
+  padding-bottom: 0 !important;
+}
+
+
+
+
+
+
+/* Final QR caption placement */
+.qr-panel-reference {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: calc(0.25rem + 5px) !important;
+}
+
+.qr-panel-reference .qr-caption {
+  order: 2;
+  font-size: 0.52rem !important;
+  line-height: 1.1;
+  letter-spacing: 0.04em !important;
+  text-align: center;
+  width: 100%;
+}
+
+.qr-panel-reference .feature-qr {
+  order: 1;
+}
+
+
+
+
+/* Final reference sizing and spacing */
+.feature-card {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.feature-grid-reference {
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr) !important;
+  grid-template-rows: minmax(0, 1fr) auto !important;
+}
+
+.feature-visual-wrap-reference {
+  padding: 2.25rem 1rem 0.25rem 1.75rem !important;
+}
+
+.feature-media-reference {
+  align-items: center !important;
+}
+
+.feature-visual-fallback,
+.feature-media-reference .feature-visual {
+  max-width: 96%;
+  max-height: 92%;
+}
+
+.feature-body-reference {
+  padding: 1.9rem 2.1rem 0 0.5rem !important;
+  background: #363230 !important;
+}
+
+.feature-copy-reference {
+  max-width: 100%;
+}
+
+.feature-body-reference .feature-copy-reference h3 {
+  font-size: clamp(1.95rem, 2.9vw, 3.35rem) !important;
+  line-height: 1.02 !important;
+  letter-spacing: -0.035em !important;
+  margin: 0;
+  -webkit-line-clamp: 4 !important;
+  line-clamp: 4 !important;
+}
+
+.feature-body-reference .feature-copy-reference p {
+  margin-top: 1rem !important;
+  font-size: clamp(0.96rem, 1.18vw, 1.3rem) !important;
+  line-height: 1.38 !important;
+  color: rgba(255, 255, 255, 0.92) !important;
+}
+
+.feature-footer-reference {
+  padding: 0.35rem 1.7rem 1.35rem 1.7rem !important;
+  background: #363230 !important;
+}
+
+.feature-meta-stack {
+  gap: 0.45rem;
+}
+
+.feature-label-row .category {
+  font-size: 1.08rem !important;
+  letter-spacing: 0.05em !important;
+}
+
+.feature-label-row .badge {
+  transform: translateY(-1px);
+}
+
+.feature-meta-line {
+  gap: 0.55rem;
+}
+
+.feature-meta-line .source,
+.feature-meta-line .published,
+.feature-meta-line .story-link,
+.feature-divider {
+  font-size: 0.9rem !important;
+  letter-spacing: 0.05em !important;
+}
+
+.qr-panel-reference {
+  gap: 0.55rem !important;
+}
+
+.qr-panel-reference .feature-qr {
+  width: 106px !important;
+  height: 106px !important;
+}
+
+.qr-panel-reference .qr-caption {
+  font-size: 0.58rem !important;
+  letter-spacing: 0.05em !important;
+}
+
+@media (max-width: 1100px) {
+  .feature-grid-reference {
+    grid-template-columns: 1fr !important;
+  }
+
+  .feature-visual-wrap-reference {
+    padding: 1rem 1rem 0.25rem !important;
+  }
+
+  .feature-body-reference {
+    padding: 0.5rem 1.25rem 0 !important;
+  }
+
+  .feature-footer-reference {
+    padding: 0.4rem 1.25rem 1rem !important;
+  }
+}
+
+/* Larger featured image */
+.feature-grid-reference {
+  grid-template-columns: minmax(0, 0.98fr) minmax(0, 1.02fr) !important;
+}
+
+.feature-visual-wrap-reference {
+  padding: 0.5rem 0.15rem 0.05rem 0.5rem !important;
+}
+
+.feature-media-reference .feature-visual,
+.feature-visual-fallback {
+  max-width: 100% !important;
+  max-height: 100% !important;
+}
+
+@media (max-width: 1100px) {
+  .feature-visual-wrap-reference {
+    padding: 0.35rem 0.25rem 0.05rem !important;
+  }
+}
+
+
+
+
+
+
+/* Reliable rail scrolling */
+.story-rail {
+  min-height: 0 !important;
+  height: 100% !important;
+  grid-template-rows: auto auto minmax(0, 1fr) !important;
+}
+
+.rail-list {
+  min-height: 0 !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  padding-right: 0.35rem !important;
+}

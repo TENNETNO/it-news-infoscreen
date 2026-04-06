@@ -35,49 +35,55 @@ export function NewsCard({ item, highlighted, timeAgo, mode = "default" }) {
 
   return (
     <article className={`news-card ${highlighted ? "highlighted" : ""} ${isFeature ? "feature-card" : ""}`}>
-      <div className="feature-grid">
-        <div className="feature-visual-wrap">
-          {displayImageSrc ? (
-            <>
-              <img
-                className={`feature-visual ${usingFallbackImage ? "feature-visual-fallback" : ""}`}
-                src={displayImageSrc}
-                alt=""
-              />
-              <div className={`feature-scrim ${usingFallbackImage ? "feature-scrim-fallback" : ""}`} />
-            </>
-          ) : (
-            <div className="feature-placeholder" aria-hidden="true" />
-          )}
+      <div className="feature-grid feature-grid-reference">
+        <div className="feature-visual-wrap feature-visual-wrap-reference">
+          <div className="feature-media feature-media-reference">
+            {displayImageSrc ? (
+              <>
+                <img
+                  className={`feature-visual ${usingFallbackImage ? "feature-visual-fallback" : ""}`}
+                  src={displayImageSrc}
+                  alt=""
+                />
+                <div className={`feature-scrim ${usingFallbackImage ? "feature-scrim-fallback" : ""}`} />
+              </>
+            ) : (
+              <div className="feature-placeholder" aria-hidden="true" />
+            )}
+          </div>
         </div>
 
-        <div className="feature-body">
-          <div className="card-top">
-            <span className="category">{item.category}</span>
-            <span className={`badge lang-${item.language}`}>{item.language.toUpperCase()}</span>
-          </div>
-
-          <div className="feature-copy">
+        <div className="feature-body feature-body-reference">
+          <div className="feature-copy feature-copy-reference">
             <h3>{displayTitle}</h3>
             <p>{displaySummary}</p>
           </div>
+        </div>
 
-          <div className="feature-footer">
-            <div className="feature-meta-block">
-              <div className="source">{item.source_name}</div>
-              <div className="published">{timeAgo}</div>
+        <div className="feature-footer feature-footer-reference">
+          <div className="feature-meta-stack">
+            <div className="feature-label-row">
+              <span className="category">{item.category}</span>
+              <span className={`badge lang-${item.language}`}>{item.language.toUpperCase()}</span>
+            </div>
+            <div className="feature-meta-line">
+              <span className="source">{item.source_name}</span>
+              <span className="feature-divider">/</span>
+              <span className="published">{timeAgo}</span>
+              <span className="feature-divider">/</span>
               <a className="story-link" href={item.source_url} target="_blank" rel="noreferrer">Open source article</a>
             </div>
-
-            {qrData ? (
-              <div className="qr-panel">
-                <div className="qr-caption">Scan to read</div>
-                <img className="qr feature-qr" src={qrData} alt={`QR code for ${item.source_name}`} />
-              </div>
-            ) : null}
           </div>
+
+          {qrData ? (
+            <div className="qr-panel qr-panel-reference">
+              <img className="qr feature-qr" src={qrData} alt={`QR code for ${item.source_name}`} />
+              <div className="qr-caption">Scan to read</div>
+            </div>
+          ) : null}
         </div>
       </div>
     </article>
   );
 }
+
