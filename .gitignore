@@ -12,6 +12,8 @@ backend/node_modules/
 # Build output
 frontend/dist/
 frontend/public/data/news.json
+frontend/public/generated/news-images/
+backend/.cache/
 
 # Logs
 *.log

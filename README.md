@@ -9,8 +9,11 @@ Browser-based fullscreen IT news dashboard for office TVs, optimized for Norway-
 ## What It Does
 
 - Aggregates IT news at build time using the existing backend feed logic.
+- Can optionally rewrite each story with Gemini into short, easy, user-friendly text.
+- Can optionally generate a matching story image with Gemini and show a Mowi logo overlay on the top-left.
+- Stops Gemini requests for the rest of the Oslo day if the daily AI quota is exhausted.
 - Generates static JSON that the frontend reads directly in the browser.
-- Renders a TV-friendly 2x2 live feed with rotating highlights, timestamps, and QR codes.
+- Renders a TV-friendly 2x2 live feed with rotating highlights, timestamps, QR codes, and optional story images.
 - Shows a bottom ticker with recent stories from the last ten days.
 - Reloads automatically at 03:30 Europe/Oslo after 24 hours of uptime.
 - Deploys cleanly to GitHub Pages with scheduled refreshes.
@@ -18,7 +21,7 @@ Browser-based fullscreen IT news dashboard for office TVs, optimized for Norway-
 ## Stack
 
 - `frontend/`: Vite + React dashboard UI
-- `backend/`: Node-based source fetching, scraping, normalization, and categorization
+- `backend/`: Node-based source fetching, scraping, normalization, categorization, and optional AI enrichment
 - `scripts/generate-static-news.mjs`: bridge that generates `frontend/public/data/news.json`
 - `.github/workflows/deploy-pages.yml`: GitHub Pages deployment workflow
 
@@ -39,6 +42,7 @@ it-news-infoscreen/
   frontend/
     public/
       data/
+      generated/
     src/
       components/
       hooks/
@@ -65,6 +69,8 @@ npm run build
 This will:
 
 - fetch and normalize the latest stories into `frontend/public/data/news.json`
+- optionally generate Gemini summaries and Gemini images when the key is configured
+- stop making Gemini calls for the rest of the Oslo day after a quota-exceeded response
 - build the frontend into `frontend/dist`
 
 ## Preview Locally
@@ -96,7 +102,12 @@ Deployment can be triggered by:
 
 - push to `main`
 - manual `workflow_dispatch`
-- scheduled rebuilds to refresh generated news data
+- scheduled rebuilds twice per weekday at `07:00 UTC` and `11:00 UTC`
+
+For Oslo time this is:
+
+- `08:00` and `12:00` in winter
+- `09:00` and `13:00` in summer
 
 To enable GitHub Pages:
 
@@ -123,7 +134,30 @@ Each item contains:
 - `language`
 - `category`
 - `summary`
+- `image_url`
 - `qr_url`
+
+## Optional AI Enrichment
+
+Create `backend/.env` from `backend/.env.example` and set:
+
+- `GEMINI_API_KEY`
+
+Optional tuning:
+
+- `GEMINI_SUMMARY_MODEL`
+- `GEMINI_IMAGE_MODEL`
+- `AI_ENRICH_MAX_ITEMS`
+- `AI_ENRICH_CONCURRENCY`
+
+Behavior:
+
+- Gemini rewrites story summaries into plain, short office-friendly text.
+- Gemini generates one image per story and saves it to `frontend/public/generated/news-images/`.
+- The Mowi logo is rendered on top-left of the image in the UI so placement stays consistent.
+- Generated summaries and image metadata are cached in `backend/.cache/ai/` so unchanged stories are not regenerated every build.
+- If Gemini returns a quota-exceeded response, the app records that and skips the remaining Gemini requests until the next Oslo day.
+- If the Gemini key is missing, the app falls back to the original summaries and shows no generated images.
 
 ## Source Configuration
 

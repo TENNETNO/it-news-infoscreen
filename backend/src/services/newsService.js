@@ -4,6 +4,7 @@ import { withCache } from "../utils/cache.js";
 import { computeId, dedupe } from "../utils/dedupe.js";
 import { detectCategory, detectLanguage } from "../utils/categorization.js";
 import { scrapeNsm } from "../utils/scraper.js";
+import { enrichNewsItems } from "./aiEnrichmentService.js";
 
 const config = loadConfig();
 
@@ -45,7 +46,7 @@ function firstHttpUrl(text) {
     return "";
   }
 
-  const match = String(text).match(/https?:\/\/[^\s"'<>)]+/i);
+  const match = String(text).match(/https?:\/\/[^\s"'<> )]+/i);
   return match ? match[0].trim() : "";
 }
 
@@ -56,7 +57,6 @@ function toAbsoluteUrl(url, sourceBase = "") {
 
   try {
     const resolved = new URL(url, sourceBase || undefined);
-    // Reject anything that isn't plain HTTP/HTTPS — blocks javascript:, data:, file:, etc.
     if (resolved.protocol !== "http:" && resolved.protocol !== "https:") {
       return "";
     }
@@ -115,6 +115,7 @@ function normalizeItem(raw, source) {
     language,
     category,
     summary,
+    image_url: "",
     qr_url: sourceUrl
   };
 
@@ -162,6 +163,7 @@ async function fetchNvdSource(source) {
       language: "en",
       category: "security",
       summary: summarizeText(description),
+      image_url: "",
       qr_url: sourceUrl
     };
 
@@ -182,6 +184,7 @@ async function fetchScrapeSource(source) {
       language: source.language,
       category: "security",
       summary: summarizeText(entry.summary),
+      image_url: "",
       qr_url: entry.sourceUrl
     };
 
@@ -239,10 +242,11 @@ async function buildNews() {
   });
 
   const deduped = dedupe(merged).sort((a, b) => Date.parse(b.published_at) - Date.parse(a.published_at));
+  const enriched = await enrichNewsItems(deduped);
 
   lastBuild = {
     builtAt: new Date().toISOString(),
-    items: deduped,
+    items: enriched,
     sourceStats
   };
 
