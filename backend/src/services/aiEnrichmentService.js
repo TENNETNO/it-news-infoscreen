@@ -276,7 +276,7 @@ async function generateImage(item, settings) {
         responseModalities: ["TEXT", "IMAGE"]
       }
     },
-    90000
+    180000
   );
 
   const image = extractGeminiInlineImage(payload);
@@ -425,6 +425,7 @@ export async function enrichNewsItems(items) {
     throw error;
   }
 }
+
 
 
 

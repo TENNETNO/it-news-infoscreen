@@ -1567,3 +1567,39 @@ h3 {
   overflow-x: hidden !important;
   padding-right: 0.35rem !important;
 }
+
+/* Final featured image treatment */
+.feature-visual-wrap-reference,
+.feature-media-reference {
+  background: #363230 !important;
+}
+
+.feature-visual-wrap-reference {
+  padding: 0.2rem 0 0 0.2rem !important;
+}
+
+.feature-media-reference {
+  width: 100% !important;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+}
+
+.feature-media-reference .feature-visual,
+.feature-visual-fallback {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  padding: 0.1rem !important;
+  background: transparent !important;
+}
+
+.feature-media-reference .feature-scrim,
+.feature-scrim-fallback {
+  display: none !important;
+}
