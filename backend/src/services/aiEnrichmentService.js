@@ -254,44 +254,6 @@ async function generateSummaryContent(item, settings) {
   return parseSummaryResponse(extractGeminiText(payload), item);
 }
 
-async function generateImage(item, settings) {
-  if (!settings.geminiApiKey) {
-    return "";
-  }
-
-  const payload = await callGeminiModel(
-    settings.geminiImageModel,
-    settings.geminiApiKey,
-    {
-      contents: [
-        {
-          parts: [
-            {
-              text: buildImagePrompt(item)
-            }
-          ]
-        }
-      ],
-      generationConfig: {
-        responseModalities: ["TEXT", "IMAGE"]
-      }
-    },
-    180000
-  );
-
-  const image = extractGeminiInlineImage(payload);
-  if (!image) {
-    return "";
-  }
-
-  const extension = extFromMimeType(image.mimeType);
-  const fileName = `${item.id}.${extension}`;
-  const outputPath = path.join(imageOutputDir, fileName);
-  await mkdir(imageOutputDir, { recursive: true });
-  await writeFile(outputPath, Buffer.from(image.base64, "base64"));
-  return `${publicImageDir}/${fileName}`;
-}
-
 async function enrichItem(item, settings) {
   const cache = await readCache(item.id);
   const summaryCacheValid = Boolean(
@@ -300,18 +262,11 @@ async function enrichItem(item, settings) {
     cache.summaryModel === settings.geminiSummaryModel &&
     cache.summaryPromptVersion === SUMMARY_PROMPT_VERSION
   );
-  const imageCacheValid = Boolean(
-    cache?.image_url &&
-    cache.imageModel === settings.geminiImageModel &&
-    cache.imagePromptVersion === IMAGE_PROMPT_VERSION &&
-    existsSync(path.join(repoRoot, "frontend", "public", cache.image_url))
-  );
-
   const next = {
     ...item,
     short_title: summaryCacheValid ? cache.short_title : sanitizeShortTitle(item.title, item.title),
     summary: summaryCacheValid ? cache.summary : item.summary,
-    image_url: imageCacheValid ? cache.image_url : ""
+    image_url: ""
   };
 
   if (!summaryCacheValid) {
@@ -328,28 +283,15 @@ async function enrichItem(item, settings) {
     }
   }
 
-  if (!imageCacheValid) {
-    try {
-      next.image_url = await generateImage(next, settings);
-    } catch (error) {
-      if (isQuotaExceededError(error)) {
-        await markQuotaExhausted(error.message);
-        throw error;
-      }
-      console.error(`[ai] Image skipped for ${item.id}: ${error.message}`);
-    }
-  }
 
   await writeCache(item.id, {
     id: item.id,
     generatedAt: new Date().toISOString(),
     short_title: next.short_title,
     summary: next.summary,
-    image_url: next.image_url,
+    image_url: "",
     summaryModel: settings.geminiSummaryModel,
-    imageModel: settings.geminiImageModel,
-    summaryPromptVersion: SUMMARY_PROMPT_VERSION,
-    imagePromptVersion: IMAGE_PROMPT_VERSION
+    summaryPromptVersion: SUMMARY_PROMPT_VERSION
   });
 
   return next;
@@ -376,7 +318,6 @@ export async function enrichNewsItems(items) {
   const settings = {
     geminiApiKey: process.env.GEMINI_API_KEY || "",
     geminiSummaryModel: process.env.GEMINI_SUMMARY_MODEL || "gemini-2.5-flash",
-    geminiImageModel: process.env.GEMINI_IMAGE_MODEL || "gemini-3.1-flash-image-preview",
     maxItems: readPositiveInt(process.env.AI_ENRICH_MAX_ITEMS, 200),
     concurrency: readPositiveInt(process.env.AI_ENRICH_CONCURRENCY, 1)
   };
@@ -385,7 +326,7 @@ export async function enrichNewsItems(items) {
     return items.map((item) => ({
       ...item,
       short_title: sanitizeShortTitle(item.title, item.title),
-      image_url: item.image_url || ""
+      image_url: ""
     }));
   }
 
@@ -394,7 +335,7 @@ export async function enrichNewsItems(items) {
     return items.map((item) => ({
       ...item,
       short_title: sanitizeShortTitle(item.title, item.title),
-      image_url: item.image_url || ""
+      image_url: ""
     }));
   }
 
@@ -409,7 +350,7 @@ export async function enrichNewsItems(items) {
     const tail = items.slice(limitedCount).map((item) => ({
       ...item,
       short_title: sanitizeShortTitle(item.title, item.title),
-      image_url: item.image_url || ""
+      image_url: ""
     }));
     return [...head, ...tail];
   } catch (error) {
@@ -418,7 +359,7 @@ export async function enrichNewsItems(items) {
       return items.map((item) => ({
         ...item,
         short_title: sanitizeShortTitle(item.title, item.title),
-        image_url: item.image_url || ""
+        image_url: ""
       }));
     }
 
