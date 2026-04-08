@@ -55,6 +55,11 @@ function extractGeminiText(payload) {
   return parts.join(" ").trim();
 }
 
+function cleanGeminiTitle(text, fallback) {
+  const cleaned = String(text || "").replace(/\s+/g, " ").replace(/[.!?:;,]+$/g, "").trim();
+  return cleaned || fallback;
+}
+
 function parseSummaryResponse(rawText, item) {
   const fallback = {
     shortTitle: sanitizeShortTitle(item.title, item.title),
@@ -70,7 +75,7 @@ function parseSummaryResponse(rawText, item) {
   try {
     const parsed = JSON.parse(text);
     return {
-      shortTitle: sanitizeShortTitle(parsed.short_title, fallback.shortTitle),
+      shortTitle: cleanGeminiTitle(parsed.short_title, fallback.shortTitle),
       summary: sanitizeSummary(parsed.summary, fallback.summary)
     };
   } catch {
@@ -78,7 +83,7 @@ function parseSummaryResponse(rawText, item) {
     const summaryMatch = text.match(/summary\s*[:=-]\s*([\s\S]+)/i);
 
     return {
-      shortTitle: sanitizeShortTitle(shortTitleMatch?.[1], fallback.shortTitle),
+      shortTitle: cleanGeminiTitle(shortTitleMatch?.[1], fallback.shortTitle),
       summary: sanitizeSummary(summaryMatch?.[1] || text, fallback.summary)
     };
   }
@@ -120,9 +125,9 @@ function buildSummaryPrompt(item) {
     "Rewrite this news story for an office infoscreen and return valid JSON.",
     "Write easy, clear English.",
     'Return exactly this shape: {"short_title":"...","summary":"..."}',
-    "Rules for short_title: max 8 words, complete thought, no ellipsis, no quotes unless essential.",
+    "Rules for short_title: STRICTLY max 8 words. Must be a NEW condensed phrase — do NOT copy the original title. Capture the core meaning. No ellipsis, no trailing punctuation, no quotes unless essential.",
     "Rules for summary: 60 to 70 words, simple wording, interesting but not hype, no bullet points.",
-    `Title: ${item.title}`,
+    `Original title: ${item.title}`,
     `Current summary: ${item.summary}`,
     `Source: ${item.source_name}`,
     `Category: ${item.category}`,
@@ -269,11 +274,13 @@ async function enrichItem(item, settings) {
     image_url: ""
   };
 
+  let geminiSucceeded = false;
   if (!summaryCacheValid) {
     try {
       const content = await generateSummaryContent(item, settings);
       next.short_title = content.shortTitle;
       next.summary = content.summary;
+      geminiSucceeded = true;
     } catch (error) {
       if (isQuotaExceededError(error)) {
         await markQuotaExhausted(error.message);
@@ -283,16 +290,17 @@ async function enrichItem(item, settings) {
     }
   }
 
-
-  await writeCache(item.id, {
-    id: item.id,
-    generatedAt: new Date().toISOString(),
-    short_title: next.short_title,
-    summary: next.summary,
-    image_url: "",
-    summaryModel: settings.geminiSummaryModel,
-    summaryPromptVersion: SUMMARY_PROMPT_VERSION
-  });
+  if (summaryCacheValid || geminiSucceeded) {
+    await writeCache(item.id, {
+      id: item.id,
+      generatedAt: new Date().toISOString(),
+      short_title: next.short_title,
+      summary: next.summary,
+      image_url: "",
+      summaryModel: settings.geminiSummaryModel,
+      summaryPromptVersion: SUMMARY_PROMPT_VERSION
+    });
+  }
 
   return next;
 }
