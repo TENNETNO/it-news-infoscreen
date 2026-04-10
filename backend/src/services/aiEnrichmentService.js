@@ -10,7 +10,7 @@ const aiCacheDir = path.join(repoRoot, "backend", ".cache", "ai");
 const aiStateFile = path.join(repoRoot, "backend", ".cache", "ai-state.json");
 const imageOutputDir = path.join(repoRoot, "frontend", "public", "generated", "news-images");
 const publicImageDir = "generated/news-images";
-const SUMMARY_PROMPT_VERSION = "2026-04-10-short-title-v3";
+const SUMMARY_PROMPT_VERSION = "2026-04-10-short-title-v4";
 const IMAGE_PROMPT_VERSION = "2026-04-07-vector-style-v1";
 
 function readPositiveInt(value, fallback) {
@@ -60,13 +60,15 @@ function cleanGeminiTitle(text, fallback) {
   if (!cleaned) return fallback;
   const words = cleaned.split(/\s+/);
   if (words.length <= 10) return cleaned;
-  // Gemini ignored the word limit — trim to 10 words at a clean boundary
-  return words.slice(0, 10).join(" ").replace(/[,:;-]+$/, "").trim();
+  // Gemini ignored the word limit — try a natural break point first
+  const naturalBreak = cleaned.split(/\s*[:|—–\-]\s*/)[0]?.trim();
+  if (naturalBreak && naturalBreak.split(/\s+/).length <= 10) return naturalBreak;
+  return words.slice(0, 9).join(" ").replace(/[,:;-]+$/, "").trim();
 }
 
 function parseSummaryResponse(rawText, item) {
   const fallback = {
-    shortTitle: sanitizeShortTitle(item.title, item.title),
+    shortTitle: item.title,
     summary: sanitizeSummary(item.summary, item.summary)
   };
 
@@ -342,7 +344,7 @@ export async function enrichNewsItems(items) {
   if (!settings.geminiApiKey) {
     return items.map((item) => ({
       ...item,
-      short_title: sanitizeShortTitle(item.title, item.title),
+      short_title: item.title,
       image_url: ""
     }));
   }
@@ -351,7 +353,7 @@ export async function enrichNewsItems(items) {
     console.log(`[ai] Gemini quota already marked exhausted for ${currentOsloDateKey()}; skipping AI enrichment.`);
     return items.map((item) => ({
       ...item,
-      short_title: sanitizeShortTitle(item.title, item.title),
+      short_title: item.title,
       image_url: ""
     }));
   }
@@ -366,7 +368,7 @@ export async function enrichNewsItems(items) {
     );
     const tail = items.slice(limitedCount).map((item) => ({
       ...item,
-      short_title: sanitizeShortTitle(item.title, item.title),
+      short_title: item.title,
       image_url: ""
     }));
     return [...head, ...tail];
@@ -375,7 +377,7 @@ export async function enrichNewsItems(items) {
       console.error(`[ai] Gemini quota exhausted for ${currentOsloDateKey()}; skipping remaining AI requests today.`);
       return items.map((item) => ({
         ...item,
-        short_title: sanitizeShortTitle(item.title, item.title),
+        short_title: item.title,
         image_url: ""
       }));
     }
