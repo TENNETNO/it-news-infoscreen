@@ -10,7 +10,7 @@ import { formatTimeAgo, oslotime } from "./utils/time.js";
 const CATEGORY_ORDER = ["security", "norway", "ai", "cloud"];
 const BACKOFF_SEQUENCE = [10000, 30000, 60000, 120000];
 const SLIDE_INTERVAL_MS = 15 * 60 * 1000;
-const FEATURED_STORY_LIMIT = 4;
+const FEATURED_STORY_LIMIT = 8;
 
 function pickFeaturedStories(items, limit = FEATURED_STORY_LIMIT) {
   const usedIds = new Set();
