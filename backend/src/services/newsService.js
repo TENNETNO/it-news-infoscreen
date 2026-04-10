@@ -106,6 +106,10 @@ function normalizeItem(raw, source) {
   const language = detectLanguage(source.language, `${title} ${summary}`);
   const category = detectCategory({ title, summary }, source);
 
+  if (!category) {
+    return null;
+  }
+
   const candidate = {
     id: "",
     title,

@@ -28,7 +28,9 @@ const CATEGORY_RULES = {
     "aws", "amazon web services", "gcp", "google cloud", "kubernetes",
     "serverless", "docker", "devops", "saas", "paas", "cloud computing",
     "data center", "infrastructure", "api", "open source", "linux",
-    "apple", "google", "meta", "amazon", "startup", "funding", "venture"
+    "software", "network", "database", "cybersecurity", "encryption",
+    "it security", "enterprise", "tech company", "data privacy", "gdpr",
+    "hardware", "processor", "chip", "semiconductor", "broadband", "5g"
   ]
 };
 
@@ -59,12 +61,13 @@ export function detectCategory(item, source) {
     return "norway";
   }
 
-  // Priority: security → ai → microsoft → cloud (default)
+  // Priority: security → ai → microsoft → cloud
   for (const category of ["security", "ai", "microsoft", "cloud"]) {
     if (containsAny(corpus, CATEGORY_RULES[category])) {
       return category;
     }
   }
 
-  return "cloud";
+  // No match — not IT-relevant, reject the item
+  return null;
 }
