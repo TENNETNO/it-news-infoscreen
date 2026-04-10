@@ -10,7 +10,7 @@ const aiCacheDir = path.join(repoRoot, "backend", ".cache", "ai");
 const aiStateFile = path.join(repoRoot, "backend", ".cache", "ai-state.json");
 const imageOutputDir = path.join(repoRoot, "frontend", "public", "generated", "news-images");
 const publicImageDir = "generated/news-images";
-const SUMMARY_PROMPT_VERSION = "2026-04-07-short-title-v1";
+const SUMMARY_PROMPT_VERSION = "2026-04-10-short-title-v2";
 const IMAGE_PROMPT_VERSION = "2026-04-07-vector-style-v1";
 
 function readPositiveInt(value, fallback) {
