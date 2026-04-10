@@ -10,7 +10,7 @@ const aiCacheDir = path.join(repoRoot, "backend", ".cache", "ai");
 const aiStateFile = path.join(repoRoot, "backend", ".cache", "ai-state.json");
 const imageOutputDir = path.join(repoRoot, "frontend", "public", "generated", "news-images");
 const publicImageDir = "generated/news-images";
-const SUMMARY_PROMPT_VERSION = "2026-04-10-short-title-v2";
+const SUMMARY_PROMPT_VERSION = "2026-04-10-short-title-v3";
 const IMAGE_PROMPT_VERSION = "2026-04-07-vector-style-v1";
 
 function readPositiveInt(value, fallback) {
@@ -57,7 +57,11 @@ function extractGeminiText(payload) {
 
 function cleanGeminiTitle(text, fallback) {
   const cleaned = String(text || "").replace(/\s+/g, " ").replace(/[.!?:;,]+$/g, "").trim();
-  return cleaned || fallback;
+  if (!cleaned) return fallback;
+  const words = cleaned.split(/\s+/);
+  if (words.length <= 10) return cleaned;
+  // Gemini ignored the word limit — trim to 10 words at a clean boundary
+  return words.slice(0, 10).join(" ").replace(/[,:;-]+$/, "").trim();
 }
 
 function parseSummaryResponse(rawText, item) {
@@ -122,17 +126,22 @@ function currentOsloDateKey() {
 
 function buildSummaryPrompt(item) {
   return [
-    "Rewrite this news story for an office infoscreen and return valid JSON.",
-    "Write easy, clear English.",
-    'Return exactly this shape: {"short_title":"...","summary":"..."}',
-    "Rules for short_title: STRICTLY max 8 words. Must be a NEW condensed phrase — do NOT copy the original title. Capture the core meaning. No ellipsis, no trailing punctuation, no quotes unless essential.",
-    "Rules for summary: 60 to 70 words, simple wording, interesting but not hype, no bullet points.",
+    "You are writing headlines for an IT news screen in a corporate office.",
+    'Return ONLY valid JSON in exactly this shape: {"short_title":"...","summary":"..."}',
+    "",
+    "short_title rules:",
+    "- Maximum 9 words. This is a hard limit — count the words before returning.",
+    "- Write a BRAND NEW catchy headline. Do NOT copy or rephrase the original word-for-word.",
+    "- Make it punchy, clear, and interesting — like a newspaper front page.",
+    "- Active voice. Start with the most important word (not 'A', 'The', 'How', 'Why').",
+    "- No ellipsis, no trailing punctuation, no quotes.",
+    "",
+    "summary rules:",
+    "- 60 to 70 words. Plain English. No bullet points. No hype.",
+    "",
     `Original title: ${item.title}`,
-    `Current summary: ${item.summary}`,
-    `Source: ${item.source_name}`,
-    `Category: ${item.category}`,
-    `Language hint: ${item.language}`,
-    `URL: ${item.source_url}`
+    `Context: ${item.summary}`,
+    `Source: ${item.source_name} | Category: ${item.category}`
   ].join("\n");
 }
 
