@@ -1,8 +1,8 @@
 function normalizeText(value) {
   return String(value || "")
     .replace(/\s+/g, " ")
-    .replace(/[“”]/g, '"')
-    .replace(/[‘’]/g, "'")
+    .replace(/[ï¿½ï¿½]/g, '"')
+    .replace(/[ï¿½ï¿½]/g, "'")
     .trim();
 }
 
@@ -88,10 +88,10 @@ function ensureWordRange(text, minWords, maxWords, fillerParts) {
 export function buildDisplayTitle(item) {
   const generated = normalizeText(item?.short_title || "");
   if (generated) {
-    return trimWords(generated, 8, { ellipsis: false });
+    return generated;
   }
 
-  return simplifyTopic(item?.title || "New tech story");
+  return normalizeText(item?.title || "New tech story");
 }
 
 export function buildDisplaySummary(item) {
