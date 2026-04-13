@@ -10,7 +10,7 @@ const aiCacheDir = path.join(repoRoot, "backend", ".cache", "ai");
 const aiStateFile = path.join(repoRoot, "backend", ".cache", "ai-state.json");
 const imageOutputDir = path.join(repoRoot, "frontend", "public", "generated", "news-images");
 const publicImageDir = "generated/news-images";
-const SUMMARY_PROMPT_VERSION = "2026-04-10-short-title-v4";
+const SUMMARY_PROMPT_VERSION = "2026-04-13-short-title-v5";
 const IMAGE_PROMPT_VERSION = "2026-04-07-vector-style-v1";
 
 function readPositiveInt(value, fallback) {
@@ -128,20 +128,30 @@ function currentOsloDateKey() {
 
 function buildSummaryPrompt(item) {
   return [
-    "You are writing headlines for an IT news screen in a corporate office.",
-    'Return ONLY valid JSON in exactly this shape: {"short_title":"...","summary":"..."}',
+    "You are an editor writing headlines for a corporate IT news screen.",
+    'Return ONLY valid JSON: {"short_title":"...","summary":"..."}',
     "",
-    "short_title rules:",
-    "- Maximum 9 words. This is a hard limit — count the words before returning.",
-    "- Write a BRAND NEW catchy headline. Do NOT copy or rephrase the original word-for-word.",
-    "- Make it punchy, clear, and interesting — like a newspaper front page.",
-    "- Active voice. Start with the most important word (not 'A', 'The', 'How', 'Why').",
-    "- No ellipsis, no trailing punctuation, no quotes.",
+    "SHORT_TITLE — strict rules:",
+    "1. 4 to 8 words. Count them. Reject if outside this range.",
+    "2. Must be a COMPLETE, grammatically finished phrase. Never end on a preposition (to, on, for, with, of, in), conjunction (and, but, or), article (a, the), or any word that leaves the reader hanging.",
+    "3. Summarise the core news fact — do NOT copy or lightly trim the original title.",
+    "4. Active voice, plain English, no jargon.",
+    "5. No ellipsis, no trailing punctuation, no quotes.",
     "",
-    "summary rules:",
-    "- 60 to 70 words. Plain English. No bullet points. No hype.",
+    "GOOD examples:",
+    '  "Mythos AI autonomously exploits zero-day bugs"',
+    '  "Russia targets routers to steal Office tokens"',
+    '  "France ditches Windows for Linux"',
+    '  "ChatGPT gets $100 Pro subscription tier"',
     "",
-    `Original title: ${item.title}`,
+    "BAD examples (never do this):",
+    '  "Anthropic mysterious Mythos AI threatens to upend"  ← dangling',
+    '  "Five signs data drift is already undermining your"  ← dangling',
+    '  "ChatGPT rolls out new $100 Pro subscription to"     ← dangling',
+    "",
+    "SUMMARY — 55 to 70 words, plain English, no bullet points, no hype.",
+    "",
+    `Title: ${item.title}`,
     `Context: ${item.summary}`,
     `Source: ${item.source_name} | Category: ${item.category}`
   ].join("\n");

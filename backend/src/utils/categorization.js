@@ -39,8 +39,27 @@ const NORWAY_MARKERS = [
   "stavanger", "norsk", "nkom", "nasjonal"
 ];
 
+// Patterns that disqualify a story regardless of category keyword matches
+const BLOCK_PATTERNS = [
+  /\bbest\s+\w.{0,30}\s+(20\d\d|review)/i,   // "Best X (2026)", "Best X Review"
+  /\breview\b.*\b(20\d\d)\b/i,                 // product reviews with year
+  /promo\s*codes?/i,                           // coupon/promo articles
+  /savings\s+hacks?/i,
+  /\brocket\s+report\b/i,                      // space launch digest
+  /\bmosquito(es)?\b/i,                        // biology / not IT
+  /\birrigat/i,                                // smart irrigation products
+  /\bsmart\s+(shades?|blinds?|curtains?)\b/i,  // smart home consumer products
+  /heading\s+to\s+\w+\s*[–—-]/i,             // "TechCrunch heading to Tokyo —"
+  /\b(artemis|orion\s+capsule|falcon\s+9|spacex\s+launch)\b/i, // space news
+];
+
 function containsAny(text, words) {
   return words.some((word) => text.includes(word));
+}
+
+export function isBlockedContent(title, summary) {
+  const corpus = `${title} ${summary}`;
+  return BLOCK_PATTERNS.some((pattern) => pattern.test(corpus));
 }
 
 export function detectLanguage(sourceLang, text) {

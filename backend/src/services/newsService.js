@@ -2,7 +2,7 @@ import Parser from "rss-parser";
 import { loadConfig } from "../config/index.js";
 import { withCache } from "../utils/cache.js";
 import { computeId, dedupe } from "../utils/dedupe.js";
-import { detectCategory, detectLanguage } from "../utils/categorization.js";
+import { detectCategory, detectLanguage, isBlockedContent } from "../utils/categorization.js";
 import { scrapeNsm } from "../utils/scraper.js";
 import { enrichNewsItems } from "./aiEnrichmentService.js";
 
@@ -106,7 +106,7 @@ function normalizeItem(raw, source) {
   const language = detectLanguage(source.language, `${title} ${summary}`);
   const category = detectCategory({ title, summary }, source);
 
-  if (!category) {
+  if (!category || isBlockedContent(title, summary)) {
     return null;
   }
 
