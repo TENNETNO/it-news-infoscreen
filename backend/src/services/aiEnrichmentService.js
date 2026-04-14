@@ -10,7 +10,7 @@ const aiCacheDir = path.join(repoRoot, "backend", ".cache", "ai");
 const aiStateFile = path.join(repoRoot, "backend", ".cache", "ai-state.json");
 const imageOutputDir = path.join(repoRoot, "frontend", "public", "generated", "news-images");
 const publicImageDir = "generated/news-images";
-const SUMMARY_PROMPT_VERSION = "2026-04-14-no-word-limit-v6";
+const SUMMARY_PROMPT_VERSION = "2026-04-14-no-person-lead-v7";
 const IMAGE_PROMPT_VERSION = "2026-04-07-vector-style-v1";
 
 function readPositiveInt(value, fallback) {
@@ -129,6 +129,9 @@ function buildSummaryPrompt(item) {
     "2. Never end on a preposition (to, on, for, with, of, in), conjunction (and, but, or), article (a, the), or any word that leaves the reader hanging.",
     "3. Summarise the core news fact in plain English. Do NOT copy or lightly trim the original title.",
     "4. Active voice. No ellipsis, no trailing punctuation, no quotes.",
+    "5. Never start with a person's name. Lead with the technology, system, or organisation instead.",
+    "6. Focus on the IT/tech impact, not on who said what. Avoid 'criticises', 'warns', 'calls for' framings — describe what is happening to the technology.",
+    "7. Always write in English, even if the original title is in another language.",
     "",
     "GOOD examples:",
     '  "Mythos AI autonomously exploits zero-day bugs"',
@@ -136,8 +139,10 @@ function buildSummaryPrompt(item) {
     '  "France ditches Windows for Linux to cut costs"',
     '  "ChatGPT launches new $100 Pro subscription tier"',
     '  "Booking.com data breach requires all users to reset PINs"',
+    '  "Norway\'s Helseplattformen health platform faces ongoing criticism"',
     "",
     "BAD examples (never do this):",
+    '  "Professor Befring criticizes user committee\'s Helseplattformen plea"  ← person-led, no IT fact',
     '  "Anthropic mysterious Mythos AI threatens to upend"  ← dangling',
     '  "Five signs data drift is already undermining your"  ← dangling',
     '  "ChatGPT rolls out new $100 Pro subscription to"     ← dangling',
