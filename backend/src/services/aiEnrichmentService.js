@@ -10,7 +10,7 @@ const aiCacheDir = path.join(repoRoot, "backend", ".cache", "ai");
 const aiStateFile = path.join(repoRoot, "backend", ".cache", "ai-state.json");
 const imageOutputDir = path.join(repoRoot, "frontend", "public", "generated", "news-images");
 const publicImageDir = "generated/news-images";
-const SUMMARY_PROMPT_VERSION = "2026-04-13-short-title-v5";
+const SUMMARY_PROMPT_VERSION = "2026-04-14-no-word-limit-v6";
 const IMAGE_PROMPT_VERSION = "2026-04-07-vector-style-v1";
 
 function readPositiveInt(value, fallback) {
@@ -37,8 +37,7 @@ function sanitizeShortTitle(text, fallback) {
     return fallback;
   }
 
-  const words = source.split(" ").filter(Boolean).slice(0, 8);
-  return words.join(" ").replace(/[.!?:;,]+$/g, "").trim() || fallback;
+  return source.replace(/[.!?:;,]+$/g, "").trim() || fallback;
 }
 
 function extractGeminiText(payload) {
@@ -57,13 +56,7 @@ function extractGeminiText(payload) {
 
 function cleanGeminiTitle(text, fallback) {
   const cleaned = String(text || "").replace(/\s+/g, " ").replace(/[.!?:;,]+$/g, "").trim();
-  if (!cleaned) return fallback;
-  const words = cleaned.split(/\s+/);
-  if (words.length <= 10) return cleaned;
-  // Gemini ignored the word limit — try a natural break point first
-  const naturalBreak = cleaned.split(/\s*[:|—–\-]\s*/)[0]?.trim();
-  if (naturalBreak && naturalBreak.split(/\s+/).length <= 10) return naturalBreak;
-  return words.slice(0, 9).join(" ").replace(/[,:;-]+$/, "").trim();
+  return cleaned || fallback;
 }
 
 function parseSummaryResponse(rawText, item) {
@@ -132,17 +125,17 @@ function buildSummaryPrompt(item) {
     'Return ONLY valid JSON: {"short_title":"...","summary":"..."}',
     "",
     "SHORT_TITLE — strict rules:",
-    "1. 4 to 8 words. Count them. Reject if outside this range.",
-    "2. Must be a COMPLETE, grammatically finished phrase. Never end on a preposition (to, on, for, with, of, in), conjunction (and, but, or), article (a, the), or any word that leaves the reader hanging.",
-    "3. Summarise the core news fact — do NOT copy or lightly trim the original title.",
-    "4. Active voice, plain English, no jargon.",
-    "5. No ellipsis, no trailing punctuation, no quotes.",
+    "1. Must be a COMPLETE, grammatically finished sentence or phrase.",
+    "2. Never end on a preposition (to, on, for, with, of, in), conjunction (and, but, or), article (a, the), or any word that leaves the reader hanging.",
+    "3. Summarise the core news fact in plain English. Do NOT copy or lightly trim the original title.",
+    "4. Active voice. No ellipsis, no trailing punctuation, no quotes.",
     "",
     "GOOD examples:",
     '  "Mythos AI autonomously exploits zero-day bugs"',
     '  "Russia targets routers to steal Office tokens"',
-    '  "France ditches Windows for Linux"',
-    '  "ChatGPT gets $100 Pro subscription tier"',
+    '  "France ditches Windows for Linux to cut costs"',
+    '  "ChatGPT launches new $100 Pro subscription tier"',
+    '  "Booking.com data breach requires all users to reset PINs"',
     "",
     "BAD examples (never do this):",
     '  "Anthropic mysterious Mythos AI threatens to upend"  ← dangling',
